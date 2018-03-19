@@ -3,11 +3,10 @@ from game.Game import *
 from pygame.locals import *
 running = True
 
-
 pygame.init()
-fenetre = pygame.display.set_mode((500, 500))
+fenetre = pygame.display.set_mode((1920, 1080))
 
-game = Game()
+game = Game(fenetre)
 running = True
 playing = True
 alive = True

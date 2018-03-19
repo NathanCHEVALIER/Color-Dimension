@@ -9,7 +9,6 @@ class Player(Entity):
         self.corp = AABB(x, y + 10, z, 10, 40, 20)
 
     def render(self, fenetre):
-        pygame.draw.rect(fenetre, [255, 0, 0], [75, 10, 100, 50],5)
         pass
 
     def update(self):
