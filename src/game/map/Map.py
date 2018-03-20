@@ -2,32 +2,60 @@
 import pygame
 
 class Map:
-    def __init__(self, fenetre):
-        self.blocks = []
-        self.enemies = []
+    def __init__(self, fenetre, player, mapId):
         self.fenetre = fenetre
-        self.generateMap()
+        self.mapId = mapId
+        self.player = player
+        self.level = 0
+        self.zone = []
+        self.enemies = []
+        self.generateMap(self.mapId)
 
     def update(self):
-        for e in self.enemies:
-            e.update()
+        pass
 
     def render(self, fenetre):
-        for e in self.enemies:
-            e.render(fenetre)
+        pass
 
-        return fenetre
+    def generateMap(self, mapId):
+        data = self.loadMap(mapId, False)
+        self.level = pygame.image.load('../img/background.jpg')
+        self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
+        for i in data:
+            if i != "limit":
+                self.generateZone(data[i])
 
-    def loadMap(self, source):
+    def loadMap(self, mapId, zoneId):
         content = json.load(open('../data/map.json'))
-        data = content[source]
+        if zoneId != False:
+            return content[mapId][zoneId]
+        else:
+            return content[mapId]
 
-        return data
+    def generateZone(self, data):
+        zone = pygame.image.load('../img/zone.png')
+        zone = pygame.transform.scale(zone, (data['limit'][2], data['limit'][3]))
+        pos = zone.get_rect()
+        pos = pos.move(data['limit'][0], data['limit'][1])
+        self.level.blit(zone, pos)
+        self.zone.append(zone)
+        self.loadZone(data)
 
-    def generateMap(self):
-        data = self.loadMap("tower")
+    def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
+        self.setCamera(1000,1100)
+        self.setCamera(1000,1100)
 
     def setPlateforme(self, data):
         for i in data:
-            pygame.draw.rect(self.fenetre, (255,0,0), tuple(data[i]), 0)
+            zone = pygame.image.load('../img/plateforme.png')
+            zone = pygame.transform.scale(zone, (data[i][2], data[i][3]))
+            pos = zone.get_rect()
+            pos = pos.move(data[i][0], data[i][1])
+            self.level.blit(zone, pos)
+            pygame.display.flip()
+
+    def setCamera(self, x, y):
+        pos = self.level.get_rect()
+        pos = pos.move(-x, -y)
+        self.fenetre.blit(self.level, pos)

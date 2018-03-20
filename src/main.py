@@ -6,7 +6,7 @@ running = True
 pygame.init()
 fenetre = pygame.display.set_mode((1920, 1080))
 
-game = Game(fenetre)
+game = Game(fenetre, "tower")
 running = True
 playing = True
 alive = True

@@ -4,10 +4,11 @@ from game.settings import *
 import time
 
 class Game:
-    def __init__(self, fenetre):
+    def __init__(self, fenetre, mapId):
         self.player = Player(0, 0, 0)
         self.fenetre = fenetre
-        self.map = Map(fenetre)
+        self.mapId = mapId
+        self.map = Map(self.fenetre, self.player, self.mapId)
 
     def render(self, fenetre):
         self.map.render(fenetre)
