@@ -11,7 +11,7 @@ class Game:
         self.map = Map(self.fenetre, self.player, self.mapId)
 
     def render(self, fenetre):
-        self.map.render(fenetre)
+        self.map.render()
         self.player.render(fenetre)
 
     def update(self):

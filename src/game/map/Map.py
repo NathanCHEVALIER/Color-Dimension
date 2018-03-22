@@ -7,14 +7,16 @@ class Map:
         self.mapId = mapId
         self.player = player
         self.level = 0
-        self.zone = []
+        self.zone = 0
+        self.posZone = 0
+        ##self.zones = []
         self.enemies = []
         self.generateMap(self.mapId)
 
     def update(self):
         pass
 
-    def render(self, fenetre):
+    def render(self):
         pass
 
     def generateMap(self, mapId):
@@ -33,29 +35,33 @@ class Map:
             return content[mapId]
 
     def generateZone(self, data):
-        zone = pygame.image.load('../img/zone.png')
-        zone = pygame.transform.scale(zone, (data['limit'][2], data['limit'][3]))
-        pos = zone.get_rect()
-        pos = pos.move(data['limit'][0], data['limit'][1])
-        self.level.blit(zone, pos)
-        self.zone.append(zone)
+        self.zone = pygame.image.load('../img/zone.png')
+        self.zone = pygame.transform.scale(self.zone, (data['limit'][2], data['limit'][3]))
+        self.posZone = self.zone.get_rect()
+        self.posZone = self.posZone.move(data['limit'][0], data['limit'][1])
         self.loadZone(data)
+        self.setCamera(1000,1100)
 
     def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
-        self.setCamera(1000,1100)
-        self.setCamera(1000,1100)
+        data = data["plateforme"]
+        plateforme = pygame.image.load('../img/plateforme.png')
+        plateforme = pygame.transform.scale(plateforme, (data["2"][2], data["2"][3]))
+        pos = plateforme.get_rect()
+        pos = pos.move(data["2"][0], data["2"][1])
+        self.zone.blit(plateforme, pos)
 
     def setPlateforme(self, data):
         for i in data:
-            zone = pygame.image.load('../img/plateforme.png')
-            zone = pygame.transform.scale(zone, (data[i][2], data[i][3]))
-            pos = zone.get_rect()
+            plateforme = pygame.image.load('../img/plateforme.png')
+            plateforme = pygame.transform.scale(plateforme, (data[i][2], data[i][3]))
+            pos = plateforme.get_rect()
             pos = pos.move(data[i][0], data[i][1])
-            self.level.blit(zone, pos)
-            pygame.display.flip()
+            self.zone.blit(plateforme, pos)
 
     def setCamera(self, x, y):
         pos = self.level.get_rect()
         pos = pos.move(-x, -y)
+        self.level.blit(self.zone, self.posZone)
         self.fenetre.blit(self.level, pos)
+        pygame.display.flip()
