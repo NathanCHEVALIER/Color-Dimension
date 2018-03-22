@@ -33,7 +33,8 @@ while running:
                 else:
                     last = time.time()
                     game.update()
-                    game.render(fenetre)
+                    game.render()
                     pygame.display.flip()
+
 pygame.quit()
 

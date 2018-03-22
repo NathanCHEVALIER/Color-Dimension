@@ -5,18 +5,16 @@ import time
 
 class Game:
     def __init__(self, fenetre, mapId):
-        self.player = Player(0, 0, 0)
         self.fenetre = fenetre
+        self.player = Player(self.fenetre, 0, 0, 0)
         self.mapId = mapId
         self.map = Map(self.fenetre, self.player, self.mapId)
 
-    def render(self, fenetre):
-        self.map.render(fenetre)
-        self.player.render(fenetre)
+    def render(self):
+        ##self.map.render()
+        self.map.setCamera(self.player.x - 910, self.player.y - 400)
+        self.player.render()
 
     def update(self):
-        self.input()
+        self.player.update()
         self.map.update()
-
-    def input(self):
-        pass

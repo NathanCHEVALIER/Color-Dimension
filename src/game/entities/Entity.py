@@ -11,8 +11,11 @@
         self.x = x
         self.z = z
         self.y = y
+        self.vx = 0
+        self.vz = 0
+        self.vy = 0
 
-    def render(fenetre):
+    def render():
         pass
 
     def update():
