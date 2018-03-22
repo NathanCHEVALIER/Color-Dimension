@@ -1,2 +1,2 @@
 ﻿class Settings:
-    FPS = 10
+    FPS = 30

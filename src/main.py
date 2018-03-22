@@ -33,6 +33,7 @@ while running:
                 else:
                     last = time.time()
                     game.update()
+                    fenetre.fill((255, 255, 255))
                     game.render()
                     pygame.display.flip()
 
