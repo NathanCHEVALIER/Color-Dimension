@@ -21,7 +21,7 @@ class Map:
 
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)
-        self.level = pygame.image.load('../img/background.jpg')
+        self.level = pygame.image.load('../img/background.png')
         self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
         for i in data:
             if i != "limit":
