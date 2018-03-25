@@ -9,6 +9,7 @@ class Game:
         self.player = Player(self.fenetre, 0, 0, 0)
         self.mapId = mapId
         self.map = Map(self.fenetre, self.player, self.mapId)
+        self.player.setMap(self.map)
 
     def render(self):
         ##self.map.render()
@@ -16,5 +17,5 @@ class Game:
         self.player.render()
 
     def update(self):
-        self.player.update()
         self.map.update()
+        self.player.update()

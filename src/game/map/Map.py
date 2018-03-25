@@ -10,6 +10,7 @@ class Map:
         self.zone = 0
         self.posZone = 0
         ##self.zones = []
+        self.rects = []
         self.enemies = []
         self.generateMap(self.mapId)
 
@@ -21,7 +22,7 @@ class Map:
 
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)
-        self.level = pygame.image.load('../img/background.png')
+        self.level = pygame.image.load('../img/background.jpg')
         self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
         for i in data:
             if i != "limit":
@@ -57,6 +58,7 @@ class Map:
             plateforme = pygame.transform.scale(plateforme, (data[i][2], data[i][3]))
             pos = plateforme.get_rect()
             pos = pos.move(data[i][0], data[i][1])
+            self.rects.append(pos)
             self.zone.blit(plateforme, pos)
 
     def setCamera(self, x, y):
