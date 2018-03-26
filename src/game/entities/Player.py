@@ -17,6 +17,7 @@ class Player(Entity):
         self.image = pygame.transform.scale(self.image, (100, 150))
 
         self.hitbox = []
+        self.hitbox.append(pygame.Rect(0, 0, 100, 147))
         self.hitbox.append(pygame.Rect(18, 15, 82, 74))
         self.hitbox.append(pygame.Rect(18, 89, 51, 59))
 
@@ -51,15 +52,16 @@ class Player(Entity):
                 self.vy -= 80
                 self.onground = False
 
-        if self.y > 11085:
-            self.onground = True
-            self.y = 11085
+##        if self.y > 11085:
+##            self.onground = True
+##            self.y = 11085
 
+##        if not self.onground:
+##            self.vy += 9.81
+##        else:
+##            self.vy = 0
 
-        if not self.onground:
-            self.vy += 9.81
-        else:
-            self.vy = 0
+        self.vy += 9.81
 
 
 
@@ -68,11 +70,31 @@ class Player(Entity):
 
         self.hitbox[0].x = self.x - self.level.x
         self.hitbox[0].y = self.y - self.level.y
-        print(self.hitbox[0])
+        ##print(self.hitbox[0])
         for rect in self.map.rects:
             if self.hitbox[0].colliderect(rect):
-                print("|||||||||||||||||||salut|||||||||||||||||||")
+                if self.vy < 0:
+                    self.y = rect.y + self.level.y + rect.h
+                    self.vy = 0
+                elif self.vy > 0:
+                    self.y = rect.y + self.level.y - self.hitbox[0].h
+                    self.onground = True
+                    self.vy = 0
+                else:
+                    pass
 
+                self.hitbox[0].x = self.x - self.level.x
+                self.hitbox[0].y = self.y - self.level.y
+
+                if self.hitbox[0].colliderect(rect):
+                    if self.vx < 0:
+                        self.x = rect.x + self.level.x + rect.w
+                        self.vx = 0
+                    elif self.vx > 0:
+                        self.x = rect.x + self.level.x + self.hitbox[0].w
+                        self.vx = 0
+                    else:
+                        pass
 
     def setMap(self, map):
         self.map = map
