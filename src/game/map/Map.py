@@ -9,6 +9,7 @@ class Map:
         self.level = 0
         self.zone = 0
         self.posZone = 0
+        self.image = {"plateforme": pygame.image.load('../img/plateforme.png')}
         ##self.zones = []
         self.rects = []
         self.enemies = []
@@ -23,9 +24,7 @@ class Map:
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)
         self.level = pygame.Surface((data['limit'][2], data['limit'][3]))
-        ##self.level = pygame.Rect(0, 0, data['limit'][2], data['limit'][3])
-        ##self.level.fill((255,255,0))
-        ##self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
+        self.level.fill((174,226,254))
         for i in data:
             if i != "limit":
                 self.generateZone(data[i])
@@ -38,8 +37,8 @@ class Map:
             return content[mapId]
 
     def generateZone(self, data):
-        self.zone = pygame.image.load('../img/zone.png')
-        self.zone = pygame.transform.scale(self.zone, (data['limit'][2], data['limit'][3]))
+        self.zone = pygame.Surface((data['limit'][2], data['limit'][3]))
+        self.zone.fill((200,200,200))
         self.posZone = self.zone.get_rect()
         self.posZone = self.posZone.move(data['limit'][0], data['limit'][1])
         self.loadZone(data)
@@ -48,20 +47,20 @@ class Map:
     def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
         data = data["plateforme"]
-        plateforme = pygame.image.load('../img/plateforme.png')
-        plateforme = pygame.transform.scale(plateforme, (data["2"][2], data["2"][3]))
+        plateforme = pygame.transform.scale(self.image["plateforme"], (data["2"][2], data["2"][3]))
         pos = plateforme.get_rect()
         pos = pos.move(data["2"][0], data["2"][1])
         self.zone.blit(plateforme, pos)
 
     def setPlateforme(self, data):
-        for i in data:
-            plateforme = pygame.image.load('../img/plateforme.png')
-            plateforme = pygame.transform.scale(plateforme, (data[i][2], data[i][3]))
-            pos = plateforme.get_rect()
-            pos = pos.move(data[i][0], data[i][1])
-            self.rects.append(pos)
-            self.zone.blit(plateforme, pos)
+        for c in data:
+            for i in range(0, int(data[c][2] / 100)):
+                plateforme = self.image["plateforme"]
+                pos = plateforme.get_rect()
+                pos = pos.move(data[c][0] + (i *100), data[c][1])
+                ## Ne pas oublier d'ajouter aux plateformes
+                ##self.rects.append(pos)
+                self.zone.blit(plateforme, pos)
 
     def setCamera(self, x, y):
         pos = self.level.get_rect()
