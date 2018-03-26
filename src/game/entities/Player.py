@@ -68,7 +68,7 @@ class Player(Entity):
         self.hitbox[0].x = self.x - self.level.x
         self.hitbox[0].y = self.y - self.level.y
         print(self.hitbox[0])
-        for rect in self.map.rects:
+        for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
                 pass
 

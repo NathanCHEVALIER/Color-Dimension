@@ -11,7 +11,7 @@ class Map:
         self.posZone = 0
         self.image = {"plateforme": pygame.image.load('../img/plateforme.png')}
         ##self.zones = []
-        self.rects = []
+        self.rects = {"plateforme": []}
         self.enemies = []
         self.generateMap(self.mapId)
 
@@ -58,9 +58,9 @@ class Map:
                 plateforme = self.image["plateforme"]
                 pos = plateforme.get_rect()
                 pos = pos.move(data[c][0] + (i *100), data[c][1])
-                ## Ne pas oublier d'ajouter aux plateformes
-                ##self.rects.append(pos)
+                self.rects["plateforme"].append(data[c])
                 self.zone.blit(plateforme, pos)
+        print(self.rects)
 
     def setCamera(self, x, y):
         pos = self.level.get_rect()
