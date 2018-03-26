@@ -8,7 +8,6 @@ class Player(Entity):
         Entity.__init__(self, x, y, z)
         self.fenetre = fenetre
 
-
         self.level = pygame.Rect(1000, 9170, 4000, 50)
 
         self.onground = False
@@ -70,8 +69,7 @@ class Player(Entity):
 
         self.hitbox[0].x = self.x - self.level.x
         self.hitbox[0].y = self.y - self.level.y
-        ##print(self.hitbox[0])
-        for rect in self.map.rects:
+        for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
                 if self.vy < 0:
                     self.y = rect.y + self.level.y + rect.h
