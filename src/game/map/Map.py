@@ -58,7 +58,7 @@ class Map:
                 plateforme = self.image["plateforme"]
                 pos = plateforme.get_rect()
                 pos = pos.move(data[c][0] + (i *100), data[c][1])
-                self.rects["plateforme"].append(data[c])
+                self.rects["plateforme"].append(pos)
                 self.zone.blit(plateforme, pos)
         print(self.rects)
 
