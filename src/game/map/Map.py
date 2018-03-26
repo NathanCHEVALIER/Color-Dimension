@@ -22,8 +22,10 @@ class Map:
 
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)
-        self.level = pygame.image.load('../img/background.jpg')
-        self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
+        self.level = pygame.Surface((data['limit'][2], data['limit'][3]))
+        ##self.level = pygame.Rect(0, 0, data['limit'][2], data['limit'][3])
+        ##self.level.fill((255,255,0))
+        ##self.level = pygame.transform.scale(self.level, (data['limit'][2], data['limit'][3]))
         for i in data:
             if i != "limit":
                 self.generateZone(data[i])
