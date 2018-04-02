@@ -8,7 +8,7 @@ class Player(Entity):
         Entity.__init__(self, x, y, z)
         self.fenetre = fenetre
 
-        self.level = pygame.Rect(1000, 9170, 4000, 50)
+        self.level = pygame.Rect(1000, 9170, 4000, 2000)
 
         self.onground = False
 
@@ -29,7 +29,7 @@ class Player(Entity):
 
     def render(self):
         self.fenetre.blit(self.image, (910, 400))
-        print("x: ", self.x, "| y: ", self.y)
+        ##print("x: ", self.x, "| y: ", self.y)
 
 
     def update(self):
@@ -45,54 +45,71 @@ class Player(Entity):
         if not(keys[K_a] or keys[K_d]):
             self.vx = 0
 
-
         if keys[K_SPACE]:
             if self.onground:
                 self.vy -= 80
                 self.onground = False
 
-##        if self.y > 11085:
-##            self.onground = True
-##            self.y = 11085
-
-##        if not self.onground:
-##            self.vy += 9.81
-##        else:
-##            self.vy = 0
-
         self.vy += 9.81
-
 
 
         self.x += self.vx
         self.y += self.vy
 
-        self.hitbox[0].x = self.x - self.level.x
-        self.hitbox[0].y = self.y - self.level.y
+        if self.y > self.level.h:
+            self.vy = 0
+            self.y = self.level.h
+            self.onground = True
+
+        self.hitbox[0].x = self.x
+        self.hitbox[0].y = self.y
+
+
         for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
-                if self.vy < 0:
-                    self.y = rect.y + self.level.y + rect.h
-                    self.vy = 0
-                elif self.vy > 0:
-                    self.y = rect.y + self.level.y - self.hitbox[0].h
-                    self.onground = True
-                    self.vy = 0
-                else:
-                    pass
-
-                self.hitbox[0].x = self.x - self.level.x
-                self.hitbox[0].y = self.y - self.level.y
-
-                if self.hitbox[0].colliderect(rect):
-                    if self.vx < 0:
-                        self.x = rect.x + self.level.x + rect.w
-                        self.vx = 0
-                    elif self.vx > 0:
-                        self.x = rect.x + self.level.x + self.hitbox[0].w
-                        self.vx = 0
-                    else:
+                #haut
+                if lasty + self.hitbox[0].h <= rect.y:
+                    #haut gauche
+                    if lastx + self.hitbox[0].w <= rect.x:
+                        print("Haut gauche")
                         pass
+                    #haut droit
+                    elif lastx >= rect.x + rect.w:
+##                        print("Haut droit")
+##                        a = (lastx - self.hitbox[0].x)/(lasty - self.hitbox[0].y)
+##                        c = (lastx - rect.x)/(lasty - rect.y)
+##                        if a < c:
+##                            pass
+##                        elif a > c:
+##                            ny = a * (rect.x + rect.w - self.hitbox.x) + rect.y
+##                        else:
+##                            pass
+                        pass
+                    #haut millieu
+                    else:
+                        print("Haut milieu")
+                        self.y = rect.y - self.hitbox[0].h
+                        self.vy = 0
+                        self.onground = True
+                #bas
+                elif lasty >= rect.y + rect.h:
+                    print("bas")
+                    if lastx + self.hitbox[0].w < rect.x:
+                        pass
+                    elif lastx > rect.x + rect.w:
+                        pass
+                    else:
+                        self.y = rect.y + rect.h
+                else:
+                    if lastx >= rect.x + rect.w:
+                        self.x = rect.x + rect.w
+                    elif lastx + self.hitbox[0].w <= rect.x:
+                        self.x = rect.x - self.hitbox[0].w
+
+
+
+
+
 
     def setMap(self, map):
         self.map = map
