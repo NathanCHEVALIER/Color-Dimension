@@ -13,6 +13,7 @@ class Game:
 
     def render(self):
         self.map.setCamera(self.player.x - 910 + self.player.level.x , self.player.y - 400 + self.player.level.y)
+        self.map.render()
         self.player.render()
 
     def update(self):
