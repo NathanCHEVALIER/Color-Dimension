@@ -9,9 +9,8 @@ class Map:
         self.level = 0
         self.zone = 0
         self.posZone = 0
-        self.image = {"plateforme": pygame.image.load('../img/plateforme.png')}
-        ##self.zones = []
-        self.rects = {"plateforme": []}
+        self.image = {"plateforme": pygame.image.load('../img/plateforme.png'), "piege": pygame.image.load('../img/piege.png')}
+        self.rects = {"plateforme": [], "piege": []}
         self.enemies = []
         self.generateMap(self.mapId)
 
@@ -46,6 +45,7 @@ class Map:
 
     def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
+        self.setPiege(data["piege"])
         data = data["plateforme"]
         plateforme = pygame.transform.scale(self.image["plateforme"], (data["2"][2], data["2"][3]))
         pos = plateforme.get_rect()
@@ -59,6 +59,16 @@ class Map:
                 pos = plateforme.get_rect()
                 pos = pos.move(data[c][0] + (i *100), data[c][1])
                 self.rects["plateforme"].append(pos)
+                self.zone.blit(plateforme, pos)
+        print(self.rects)
+
+    def setPiege(self, data):
+        for c in data:
+            for i in range(0, int(data[c][2] / 100)):
+                plateforme = self.image["piege"]
+                pos = plateforme.get_rect()
+                pos = pos.move(data[c][0] + (i *100), data[c][1])
+                self.rects["piege"].append(pos)
                 self.zone.blit(plateforme, pos)
         print(self.rects)
 
