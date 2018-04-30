@@ -8,9 +8,10 @@ fenetre = pygame.display.set_mode((1920, 1080))
 
 game = Game(fenetre, "tower")
 running = True
+
 playing = True
-alive = True
 pause = False
+
 last = time.time()
 
 def event():
@@ -23,9 +24,9 @@ while running:
     event()
     while playing and running:
         event()
-        while alive and running and playing:
+        while game.player.alive and running and playing:
             event()
-            while not pause and running and playing and alive:
+            while not pause and running and playing and game.player.alive:
                 event()
                 now = time.time()
                 if now - last < 1/Settings.FPS:

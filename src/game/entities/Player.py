@@ -10,9 +10,10 @@ class Player(Entity):
 
         self.level = pygame.Rect(1000, 9170, 4000, 2000)
 
+        self.alive = True
         self.onground = False
-        self.color = (255, 0, 0)
 
+        self.color = (255, 0, 0)
 
         #image pour le rendu
         self.image = {"droite": pygame.image.load('../img/leila.png')}
@@ -116,6 +117,10 @@ class Player(Entity):
 
         self.hitbox[0].x = self.x
         self.hitbox[0].y = self.y
+
+        for rect in self.map.rects["piege"]:
+            if(self.hitbox[0].colliderect(rect)):
+                self.alive = False
 
         for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
