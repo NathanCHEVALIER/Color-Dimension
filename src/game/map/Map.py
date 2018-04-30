@@ -1,5 +1,6 @@
 ﻿import json
 import pygame
+from game.entities.Monster import *
 
 class Map:
     def __init__(self, fenetre, player, mapId):
@@ -12,13 +13,21 @@ class Map:
         self.image = {"plateforme": pygame.image.load('../img/plateforme.png'), "piege": pygame.image.load('../img/piege.png')}
         self.rects = {"plateforme": [], "piege": []}
         self.enemies = []
+        self.enemies.append(Monster(self.fenetre, 3000, 1000, 0))
+        self.enemies[0].setMap(self)
         self.generateMap(self.mapId)
 
+
+
+
     def update(self):
-        pass
+        for e in self.enemies:
+            print("x: ", e.x, " y :", e.y)
+            e.update()
 
     def render(self):
-        pass
+        for e in self.enemies:
+            e.render(e.x - self.player.x + 910, e.y - self.player.y + 400)
 
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)

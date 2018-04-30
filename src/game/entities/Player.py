@@ -43,7 +43,6 @@ class Player(Entity):
         else:
             pygame.draw.polygon(self.fenetre, self.color, [[946, 401], [948, 430], [971, 430]])
             self.fenetre.blit(self.image["gauche"], (910, 400))
-        ##print("x: ", self.x, "| y: ", self.y)
 
 
     def update(self):
@@ -61,19 +60,18 @@ class Player(Entity):
             self.vx = 0
 
         if keys[K_w]:
-            self.z += -20
+            self.z += -30
         if keys[K_s]:
-            self.z += 20
+            self.z += 30
         if self.z < 0:
             self.z = 0
         elif self.z > 1530:
             self.z = 1530
-        print("z = ", self.z)
 
 
         if keys[K_SPACE]:
             if self.onground:
-                self.vy -= 80
+                self.vy -= 90
                 self.onground = False
 
         #calcul de la couleur de la corne
@@ -141,6 +139,7 @@ class Player(Entity):
 
                 self.hitbox[0].x = self.x
                 self.hitbox[0].y = self.y
+        print("x: ", self.x, " y :", self.y);
 
     def setMap(self, map):
         self.map = map
