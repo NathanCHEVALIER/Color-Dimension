@@ -1,6 +1,7 @@
 ﻿import json
 import pygame
 from game.entities.Monster import *
+from game.tools import *
 
 class Map:
     def __init__(self, fenetre, player, mapId):
@@ -10,15 +11,12 @@ class Map:
         self.level = 0
         self.zone = 0
         self.posZone = 0
-        self.image = {"plateforme": pygame.image.load('../img/plateforme.png'), "piege": pygame.image.load('../img/piege.png')}
-        self.rects = {"plateforme": [], "piege": []}
+        self.image = {"plateforme": pygame.image.load('../img/plateforme.png'), "piege": pygame.image.load('../img/piege.png'), "colorPlateforme": pygame.image.load('../img/colorPlateforme.png')}
+        self.rects = {"plateforme": [], "piege": [], "colorPlateforme": []}
         self.enemies = []
         self.enemies.append(Monster(self.fenetre, 3000, 1000, 0))
         self.enemies[0].setMap(self)
         self.generateMap(self.mapId)
-
-
-
 
     def update(self):
         for e in self.enemies:
@@ -55,6 +53,7 @@ class Map:
     def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
         self.setPiege(data["piege"])
+        self.setColorPlateforme(data["colorPlateforme"])
         data = data["plateforme"]
         plateforme = pygame.transform.scale(self.image["plateforme"], (data["2"][2], data["2"][3]))
         pos = plateforme.get_rect()
@@ -78,6 +77,18 @@ class Map:
                 pos = plateforme.get_rect()
                 pos = pos.move(data[c][0] + (i *100), data[c][1])
                 self.rects["piege"].append(pos)
+                self.zone.blit(plateforme, pos)
+        print(self.rects)
+
+    def setColorPlateforme(self, data):
+        for c in data:
+            for i in range(0, int(data[c][2] / 100)):
+                plateforme = self.image["colorPlateforme"]
+                pos = plateforme.get_rect()
+                pos = pos.move(data[c][0] + (i *100), data[c][1])
+                params = [pos, data[c][4]]
+                self.rects["colorPlateforme"].append(params)
+                pygame.draw.rect(self.zone, getColor(data[c][4]), pos)
                 self.zone.blit(plateforme, pos)
         print(self.rects)
 
