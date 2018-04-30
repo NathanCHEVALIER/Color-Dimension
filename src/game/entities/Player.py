@@ -60,9 +60,9 @@ class Player(Entity):
             self.vx = 0
 
         if keys[K_w]:
-            self.z += -30
+            self.z += -60
         if keys[K_s]:
-            self.z += 30
+            self.z += 60
         if self.z < 0:
             self.z = 0
         elif self.z > 1530:
