@@ -118,10 +118,12 @@ class Player(Entity):
         self.hitbox[0].x = self.x
         self.hitbox[0].y = self.y
 
+        #collision piège
         for rect in self.map.rects["piege"]:
             if(self.hitbox[0].colliderect(rect)):
                 self.alive = False
 
+        #collision plateform normal
         for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
                 #haut
@@ -144,6 +146,33 @@ class Player(Entity):
 
                 self.hitbox[0].x = self.x
                 self.hitbox[0].y = self.y
+
+        #collision plateform de couleur
+        for colorPlat in self.map.rects["colorPlateforme"]:
+            rect = colorPlat[0]
+            z = colorPlat[1]
+            if self.z <= z + 100 and self.z >= z - 100:
+                if self.hitbox[0].colliderect(rect):
+                    #haut
+                    if lasty + self.hitbox[0].h <= rect.y:
+                        self.y = rect.y - self.hitbox[0].h
+                        self.vy = 0
+                        self.onground = True
+                    #bas
+                    elif lasty >= rect.y + rect.h:
+                        self.y = rect.y + rect.h
+
+                    #milieu
+                    else:
+                        if lastx >= rect.x + (rect.w / 2):
+                            self.x = rect.x + rect.w
+                        elif lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
+                            self.x = rect.x - self.hitbox[0].w
+                        else:
+                            print("La c'est la merde");
+
+                    self.hitbox[0].x = self.x
+                    self.hitbox[0].y = self.y
         print("x: ", self.x, " y :", self.y);
 
     def setMap(self, map):
