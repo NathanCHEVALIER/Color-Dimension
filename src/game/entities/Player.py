@@ -151,7 +151,7 @@ class Player(Entity):
         for colorPlat in self.map.rects["colorPlateforme"]:
             rect = colorPlat[0]
             z = colorPlat[1]
-            if self.z <= z + 100 and self.z >= z - 100:
+            if self.z <= z + 200 and self.z >= z - 200:
                 if self.hitbox[0].colliderect(rect):
                     #haut
                     if lasty + self.hitbox[0].h <= rect.y:
