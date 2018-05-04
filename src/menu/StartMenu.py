@@ -13,7 +13,6 @@ class StartMenu():
         self.rect["editeur"] = self.image["editeur"].get_rect().move(500, 500)
 
 
-        #self.rect = {"option" : pygame.Rect(500, 400)}
         self.last = False
 
     def render(self):
