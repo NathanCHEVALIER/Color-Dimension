@@ -1,7 +1,7 @@
 ﻿import pygame
 from pygame.locals import *
 from game.entities.Entity import *
-from physics.AABB import *
+from game.tools import *
 
 class Player(Entity):
     def __init__(self,fenetre, x, y, z):
@@ -76,34 +76,7 @@ class Player(Entity):
                 self.onground = False
 
         #calcul de la couleur de la corne
-        r = 0
-        g = 0
-        b = 0
-        if self.z < 255:
-            r = 255
-            g = self.z
-            b = 0
-        elif self.z < 510:
-            r = 510 - self.z
-            g = 255
-            b = 0
-        elif self.z < 765:
-            r = 0
-            g = 255
-            b = self.z - 510
-        elif self.z < 1020:
-            r = 0
-            g = 1020 - self.z
-            b = 255
-        elif self.z < 1275:
-            r = self.z - 1020
-            g = 0
-            b = 255
-        else:
-            r = 255
-            g = 0
-            b = 1530 - self.z
-        self.color = (r, g, b);
+        self.color = getColor(self.z)
 
         #ajout de la gravité et des vitesses
         self.vy += 9.81
@@ -146,6 +119,7 @@ class Player(Entity):
 
                 self.hitbox[0].x = self.x
                 self.hitbox[0].y = self.y
+        print("x: ", self.x, " y :", self.y);
 
         #collision plateform de couleur
         for colorPlat in self.map.rects["colorPlateforme"]:
