@@ -7,11 +7,11 @@ class StartMenu():
         self.main = main
         self.image = {"option" : pygame.image.load('../img/menu/option.png')}
         self.image["play"] = pygame.image.load('../img/menu/play.png')
+
         self.rect = {"option" : self.image["option"].get_rect().move(500, 400)}
         self.rect["play"] = self.image["play"].get_rect().move(500, 300)
 
 
-        #self.rect = {"option" : pygame.Rect(500, 400)}
         self.last = False
 
     def render(self):

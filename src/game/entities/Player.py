@@ -8,7 +8,7 @@ class Player(Entity):
         Entity.__init__(self, x, y, z)
         self.fenetre = fenetre
 
-        self.level = pygame.Rect(1000, 9170, 4000, 2000)
+        self.level = 0
 
         self.alive = True
         self.onground = False
@@ -38,6 +38,7 @@ class Player(Entity):
         ##self.image.blit(corp, self.hitbox[1])
 
     def render(self):
+        """rendu du joueur"""
         if self.vx >= 0:
             pygame.draw.polygon(self.fenetre, self.color, [[973, 401], [948, 430], [971, 430]])
             self.fenetre.blit(self.image["droite"], (910, 400))
@@ -47,9 +48,10 @@ class Player(Entity):
 
 
     def update(self):
-        lastx = self.x
-        lasty = self.y
-        lastz = self.z
+        """update du joueurar"""
+        self.lastx = self.x
+        self.lasty = self.y
+        self.lastz = self.z
 
         #input
         keys = pygame.key.get_pressed()
@@ -91,54 +93,61 @@ class Player(Entity):
         self.hitbox[0].x = self.x
         self.hitbox[0].y = self.y
 
-        #collision piège
+        self.collisionPiege()
+        self.collisionPlatform()
+        self.collisionPlatformColor()
+
+    def collisionPiege(self):
+        """collision piège"""
         for rect in self.map.rects["piege"]:
             if(self.hitbox[0].colliderect(rect)):
                 self.alive = False
 
-        #collision plateform normal
+
+    def collisionPlatform(self):
+        """collision plateform normal"""
         for rect in self.map.rects["plateforme"]:
             if self.hitbox[0].colliderect(rect):
                 #haut
-                if lasty + self.hitbox[0].h <= rect.y:
+                if self.lasty + self.hitbox[0].h <= rect.y:
                     self.y = rect.y - self.hitbox[0].h
                     self.vy = 0
                     self.onground = True
                 #bas
-                elif lasty >= rect.y + rect.h:
+                elif self.lasty >= rect.y + rect.h:
                     self.y = rect.y + rect.h
 
                 #milieu
                 else:
-                    if lastx >= rect.x + (rect.w / 2):
+                    if self.lastx >= rect.x + (rect.w / 2):
                         self.x = rect.x + rect.w
-                    elif lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
+                    elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
                         self.x = rect.x - self.hitbox[0].w
                     else:
                         print("La c'est la merde");
 
                 self.hitbox[0].x = self.x
                 self.hitbox[0].y = self.y
-        print("x: ", self.x, " y :", self.y);
 
-        #collision plateform de couleur
+    def collisionPlatformColor(self):
+        """collision plateform de couleur"""
         for colorPlat in self.map.rects["colorPlateforme"]:
             rect = colorPlat[0]
             z = colorPlat[1]
             if self.z <= z + 200 and self.z >= z - 200:
                 if self.hitbox[0].colliderect(rect):
                     #haut
-                    if lasty + self.hitbox[0].h <= rect.y:
+                    if self.lasty + self.hitbox[0].h <= rect.y:
                         self.y = rect.y - self.hitbox[0].h
                         self.vy = 0
                         self.onground = True
                     #bas
-                    elif lasty >= rect.y + rect.h:
+                    elif self.lasty >= rect.y + rect.h:
                         self.y = rect.y + rect.h
 
                     #milieu
                     else:
-                        if lastx >= rect.x + (rect.w / 2):
+                        if self.lastx >= rect.x + (rect.w / 2):
                             self.x = rect.x + rect.w
                         elif lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
                             self.x = rect.x - self.hitbox[0].w
@@ -147,7 +156,6 @@ class Player(Entity):
 
                     self.hitbox[0].x = self.x
                     self.hitbox[0].y = self.y
-        ##print("x: ", self.x, " y :", self.y);
-
     def setMap(self, map):
         self.map = map
+        self.level = self.map.posZone

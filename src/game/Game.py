@@ -15,15 +15,18 @@ class Game:
 
 
     def render(self):
+        """rendu de la map et du joueur"""
         self.map.setCamera(self.player.x - 910 + self.player.level.x , self.player.y - 400 + self.player.level.y)
         self.map.render()
         self.player.render()
 
     def update(self):
+        """update de la map et du joueur"""
         self.map.update()
         self.player.update()
 
     def respawn(self):
+        """remet le joeur à sa position de depart"""
         self.player.x = 2000
         self.player.y = 1700
         self.player.z = 0
