@@ -35,5 +35,5 @@ class StartMenu():
                     self.main.game.respawn()
                 elif self.rect["editeur"].collidepoint(mouse):
                     print("ferfrfr")
-                    self.main.game.editor.update()
+                    self.main.game.editor.loop()
         return True

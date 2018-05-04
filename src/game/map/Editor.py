@@ -28,9 +28,8 @@ class Editor():
                     print("GG WP")
                 ##elif self.rect["play"].collidepoint(mouse):
                   ##  self.main.game.respawn()
-
-        self.render()
-        time.sleep(50)
-        self.update()
         return True
 
+    def loop(self):
+        while self.update():
+            self.render()
