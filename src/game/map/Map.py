@@ -40,7 +40,7 @@ class Map:
         self.image["sprite"] = pygame.image.load('../img/sprite' + mapId + '.png')
         plateforme = self.image["sprite"].subsurface(300, 300, 100, 50)
         self.image["plateforme"] = [plateforme, plateforme.get_rect()]
-        piege = self.image["sprite"].subsurface(300, 100, 100, 50)
+        piege = self.image["sprite"].subsurface(300, 120, 100, 30)
         self.image["piege"] = [piege, piege.get_rect()]
         colorPlateforme = self.image["sprite"].subsurface(300, 200, 100, 50)
         self.image["colorPlateforme"] = [colorPlateforme, colorPlateforme.get_rect()]
@@ -54,13 +54,10 @@ class Map:
         self.zone.fill((200,200,200))
         self.posZone = self.zone.get_rect()
         self.posZone = self.posZone.move(data['limit'][0], data['limit'][1])
-        self.loadZone(data)
-        self.setCamera(1000,1100)
-
-    def loadZone(self, data):
         self.setPlateforme(data["plateforme"])
         self.setPiege(data["piege"])
         self.setColorPlateforme(data["colorPlateforme"])
+        self.setCamera(1000,1100)
 
     def setPlateforme(self, data):
         for c in data:
@@ -80,8 +77,7 @@ class Map:
         for c in data:
             for i in range(0, int(data[c][2] / 100)):
                 pos = self.image["colorPlateforme"][1].move(data[c][0] + (i *100), data[c][1])
-                params = [pos, data[c][4]]
-                self.rects["colorPlateforme"].append(params)
+                self.rects["colorPlateforme"].append([pos, data[c][4]])
                 pygame.draw.rect(self.zone, getColor(data[c][4]), pos)
                 self.zone.blit(self.image["colorPlateforme"][0], pos)
 

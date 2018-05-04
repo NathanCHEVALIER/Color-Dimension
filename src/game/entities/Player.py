@@ -173,7 +173,7 @@ class Player(Entity):
 
                     self.hitbox[0].x = self.x
                     self.hitbox[0].y = self.y
-        print("x: ", self.x, " y :", self.y);
+        ##print("x: ", self.x, " y :", self.y);
 
     def setMap(self, map):
         self.map = map
