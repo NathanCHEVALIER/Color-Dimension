@@ -7,8 +7,10 @@ class StartMenu():
         self.main = main
         self.image = {"option" : pygame.image.load('../img/menu/option.png')}
         self.image["play"] = pygame.image.load('../img/menu/play.png')
+        self.image["editeur"] = pygame.image.load('../img/menu/editeur.png')
         self.rect = {"option" : self.image["option"].get_rect().move(500, 400)}
         self.rect["play"] = self.image["play"].get_rect().move(500, 300)
+        self.rect["editeur"] = self.image["editeur"].get_rect().move(500, 500)
 
 
         #self.rect = {"option" : pygame.Rect(500, 400)}
@@ -18,8 +20,7 @@ class StartMenu():
         self.fenetre.fill((255, 0, 255, 1))
         self.fenetre.blit(self.image["play"], (500, 300))
         self.fenetre.blit(self.image["option"], (500, 400))
-
-
+        self.fenetre.blit(self.image["editeur"], (500, 500))
 
         pygame.display.flip()
 
@@ -33,4 +34,7 @@ class StartMenu():
                     print("GG WP")
                 elif self.rect["play"].collidepoint(mouse):
                     self.main.game.respawn()
+                elif self.rect["editeur"].collidepoint(mouse):
+                    print("ferfrfr")
+                    self.main.game.editor.update()
         return True

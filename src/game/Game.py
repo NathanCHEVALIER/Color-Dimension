@@ -1,5 +1,6 @@
 ﻿from game.entities.Player import *
 from game.map.Map import *
+from game.map.Editor import *
 from game.settings import *
 import time
 
@@ -9,6 +10,7 @@ class Game:
         self.player = Player(self.fenetre, 2000, 1700, 0)
         self.mapId = mapId
         self.map = Map(self.fenetre, self.player, self.mapId)
+        self.editor = Editor(self.fenetre)
         self.player.setMap(self.map)
 
 
