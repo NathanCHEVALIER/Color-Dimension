@@ -13,19 +13,14 @@ class Map:
         self.posZone = 0
         self.image = {"sprite": 0, "plateforme": 0, "piege": 0, "colorPlateforme": 0}
         self.rects = {"plateforme": [], "piege": [], "colorPlateforme": []}
-        self.enemies = []
-        self.enemies.append(Monster(self.fenetre, 3000, 1000, 0))
-        self.enemies[0].setMap(self)
+
         self.generateMap(self.mapId)
 
     def update(self):
-        for e in self.enemies:
-            print("x: ", e.x, " y :", e.y)
-            e.update()
+        pass
 
     def render(self):
-        for e in self.enemies:
-            e.render(e.x - self.player.x + 910, e.y - self.player.y + 400)
+        pass
 
     def generateMap(self, mapId):
         data = self.loadMap(mapId, False)

@@ -12,15 +12,28 @@ class Game:
         self.map = Map(self.fenetre, self.player, self.mapId)
         self.editor = Editor(self.fenetre)
         self.player.setMap(self.map)
+
+        #enemies
+        self.enemies = []
+        self.enemies.append(Monster(self.fenetre, 3000, 1000, 0, self.player))
+        self.enemies[0].setMap(self.map)
+
+
+
     def render(self):
         """rendu de la map et du joueur"""
         self.map.setCamera(self.player.x - 910 + self.player.level.x , self.player.y - 400 + self.player.level.y)
         self.map.render()
+        for e in self.enemies:
+            e.render(e.x - self.player.x + 910, e.y - self.player.y + 400)
         self.player.render()
 
     def update(self):
         """update de la map et du joueur"""
         self.map.update()
+        for e in self.enemies:
+            e.update()
+            print("x: ", e.x, " y :", e.y)
         self.player.update()
 
     def respawn(self):
