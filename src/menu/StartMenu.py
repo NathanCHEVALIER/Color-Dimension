@@ -34,6 +34,5 @@ class StartMenu():
                 elif self.rect["play"].collidepoint(mouse):
                     self.main.game.respawn()
                 elif self.rect["editeur"].collidepoint(mouse):
-                    print("ferfrfr")
                     self.main.game.editor.loop()
         return True

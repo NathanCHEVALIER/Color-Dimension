@@ -7,14 +7,16 @@ class Editor():
         self.fenetre = fenetre
         self.fond = pygame.Surface((1520, 1080))
         self.fond.fill((240,240,240))
-        self.menu = pygame.Surface((400, 1080))
-        self.menu.fill((50,50,50))
+        self.image = {"sprite": 0}
+        self.rects = {"menu": 0}
 
+        self.image["menu"] =  pygame.image.load('../img/editeur/menu.png')
         self.last = False
+        self.home = True
 
     def render(self):
         self.fenetre.blit(self.fond, (400,0))
-        self.fenetre.blit(self.menu, (0,0))
+        self.fenetre.blit(self.image["menu"], (0,0))
 
         pygame.display.flip()
 

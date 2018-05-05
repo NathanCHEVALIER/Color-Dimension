@@ -17,7 +17,6 @@ class Main():
 
         self.last = time.time()
 
-
         while self.running:
         	self.event()
         	startmenu = StartMenu(self.fenetre, self)

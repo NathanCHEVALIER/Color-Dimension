@@ -12,10 +12,6 @@ class Game:
         self.map = Map(self.fenetre, self.player, self.mapId)
         self.editor = Editor(self.fenetre)
         self.player.setMap(self.map)
-
-
-
-
     def render(self):
         """rendu de la map et du joueur"""
         self.map.setCamera(self.player.x - 910 + self.player.level.x , self.player.y - 400 + self.player.level.y)
