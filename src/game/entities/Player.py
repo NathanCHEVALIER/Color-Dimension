@@ -21,8 +21,6 @@ class Player(Entity):
         self.image["droite"] = pygame.transform.scale(self.image["droite"], (100, 150))
         self.image["gauche"] = pygame.transform.scale(self.image["gauche"], (100, 150))
 
-        #rect pour les couleur de la corne
-
         #rect pour les collisions
         self.hitbox = []
         self.hitbox.append(pygame.Rect(0, 0, 100, 148))
@@ -48,7 +46,7 @@ class Player(Entity):
 
 
     def update(self):
-        """update du joueurar"""
+        """update du joueur"""
         self.lastx = self.x
         self.lasty = self.y
         self.lastz = self.z
@@ -97,65 +95,3 @@ class Player(Entity):
         self.collisionPlatform()
         self.collisionPlatformColor()
 
-    def collisionPiege(self):
-        """collision piège"""
-        for rect in self.map.rects["piege"]:
-            if(self.hitbox[0].colliderect(rect)):
-                self.alive = False
-
-
-    def collisionPlatform(self):
-        """collision plateform normal"""
-        for rect in self.map.rects["plateforme"]:
-            if self.hitbox[0].colliderect(rect):
-                #haut
-                if self.lasty + self.hitbox[0].h <= rect.y:
-                    self.y = rect.y - self.hitbox[0].h
-                    self.vy = 0
-                    self.onground = True
-                #bas
-                elif self.lasty >= rect.y + rect.h:
-                    self.y = rect.y + rect.h
-
-                #milieu
-                else:
-                    if self.lastx >= rect.x + (rect.w / 2):
-                        self.x = rect.x + rect.w
-                    elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
-                        self.x = rect.x - self.hitbox[0].w
-                    else:
-                        print("La c'est la merde");
-
-                self.hitbox[0].x = self.x
-                self.hitbox[0].y = self.y
-
-    def collisionPlatformColor(self):
-        """collision plateform de couleur"""
-        for colorPlat in self.map.rects["colorPlateforme"]:
-            rect = colorPlat[0]
-            z = colorPlat[1]
-            if self.z <= z + 200 and self.z >= z - 200:
-                if self.hitbox[0].colliderect(rect):
-                    #haut
-                    if self.lasty + self.hitbox[0].h <= rect.y:
-                        self.y = rect.y - self.hitbox[0].h
-                        self.vy = 0
-                        self.onground = True
-                    #bas
-                    elif self.lasty >= rect.y + rect.h:
-                        self.y = rect.y + rect.h
-
-                    #milieu
-                    else:
-                        if self.lastx >= rect.x + (rect.w / 2):
-                            self.x = rect.x + rect.w
-                        elif lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
-                            self.x = rect.x - self.hitbox[0].w
-                        else:
-                            print("La c'est la merde");
-
-                    self.hitbox[0].x = self.x
-                    self.hitbox[0].y = self.y
-    def setMap(self, map):
-        self.map = map
-        self.level = self.map.posZone
