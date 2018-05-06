@@ -47,7 +47,7 @@ class StartMenu():
                 elif self.rect["option"].collidepoint(mouse):
                     print("#option")
                 elif self.rect["edit"].collidepoint(mouse):
-                    print("#edit")
+                    self.main.game.editor.loop()
 
         return True
 
