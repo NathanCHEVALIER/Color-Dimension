@@ -14,7 +14,6 @@ class Main():
 
         self.playing = True
         self.pause = False
-
         self.last = time.time()
 
         while self.running:

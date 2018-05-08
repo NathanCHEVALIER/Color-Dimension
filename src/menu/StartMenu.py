@@ -1,5 +1,7 @@
 ﻿import pygame
 import pygame.locals
+from menu.Options import *
+from menu.Scores import *
 
 class StartMenu():
     def __init__(self, fenetre, main):
@@ -43,11 +45,11 @@ class StartMenu():
                 if self.rect["play"].collidepoint(mouse):
                     self.main.game.respawn()
                 elif self.rect["score"].collidepoint(mouse):
-                    print("#score")
+                    score = Scores(self.fenetre, self.main)
                 elif self.rect["option"].collidepoint(mouse):
-                    print("#option")
+                    option = Options(self.fenetre, self.main)
                 elif self.rect["edit"].collidepoint(mouse):
-                    self.main.game.editor.loop()
+                    print("#edit")
 
         return True
 
