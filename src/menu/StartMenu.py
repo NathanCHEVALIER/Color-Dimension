@@ -45,11 +45,12 @@ class StartMenu():
                 if self.rect["play"].collidepoint(mouse):
                     self.main.game.respawn()
                 elif self.rect["score"].collidepoint(mouse):
+                    print("a revoir")
                     score = Scores(self.fenetre, self.main)
                 elif self.rect["option"].collidepoint(mouse):
                     option = Options(self.fenetre, self.main)
                 elif self.rect["edit"].collidepoint(mouse):
-                    print("#edit")
+                    self.main.game.editor.loop()
 
         return True
 
