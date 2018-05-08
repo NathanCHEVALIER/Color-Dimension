@@ -47,7 +47,11 @@ class StartMenu():
                 elif self.rect["score"].collidepoint(mouse):
                     score = Scores(self.fenetre, self.main)
                 elif self.rect["option"].collidepoint(mouse):
+<<<<<<< Updated upstream
                     option = Options(self.fenetre, self.main)
+=======
+                    Options()
+>>>>>>> Stashed changes
                 elif self.rect["edit"].collidepoint(mouse):
                     print("#edit")
 

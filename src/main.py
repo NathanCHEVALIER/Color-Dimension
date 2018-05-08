@@ -3,6 +3,8 @@ from game.Game import *
 from pygame.locals import *
 from menu.StartMenu import *
 
+scores = []
+
 
 class Main():
     def __init__(self):
