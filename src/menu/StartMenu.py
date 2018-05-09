@@ -1,6 +1,5 @@
 ﻿import pygame
 import pygame.locals
-import time
 
 class StartMenu():
     def __init__(self, fenetre):
@@ -49,9 +48,14 @@ class StartMenu():
                     #self.main.game.respawn()
                     return "respawn"
                 elif self.rect["score"].collidepoint(mouse):
-                    return "score"
+                    print("a revoir")
+                    score = Scores(self.fenetre, self.main)
                 elif self.rect["option"].collidepoint(mouse):
-                    return "option"
+<<<<<<< Updated upstream
+                    option = Options(self.fenetre, self.main)
+=======
+                    Options()
+>>>>>>> Stashed changes
                 elif self.rect["edit"].collidepoint(mouse):
                     ##self.main.game.editor.loop()
                     return "editeur"

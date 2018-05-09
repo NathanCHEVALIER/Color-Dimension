@@ -3,6 +3,7 @@ from game.Game import *
 from pygame.locals import *
 from menu.StartMenu import *
 
+
 class Main():
     pygame.init()
     fenetre = pygame.display.set_mode((1920, 1080))
@@ -20,4 +21,7 @@ class Main():
             r = game.run()
     pygame.quit()
 
+        self.playing = True
+        self.pause = False
 
+        self.last = time.time()
