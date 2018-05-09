@@ -1,41 +1,22 @@
 ﻿import pygame
 from game.Game import *
 from pygame.locals import *
-running = True
+from menu.StartMenu import *
 
-pygame.init()
-fenetre = pygame.display.set_mode((1920, 1080))
+class Main():
+    pygame.init()
+    fenetre = pygame.display.set_mode((1920, 1080))
+    game = Game(fenetre, "tower")
 
-game = Game(fenetre, "tower")
-running = True
-playing = True
-alive = True
-pause = False
-last = time.time()
-
-def event():
-    global running
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-           running = False
-
-while running:
-    event()
-    while playing and running:
-        event()
-        while alive and running and playing:
-            event()
-            while not pause and running and playing and alive:
-                event()
-                now = time.time()
-                if now - last < 1/Settings.FPS:
-                    time.sleep(1/Settings.FPS - (now - last))
-                else:
-                    last = time.time()
-                    game.update()
-                    fenetre.fill((255, 255, 255))
-                    game.render()
-                    pygame.display.flip()
-
-pygame.quit()
+    r = "startmenu"
+    while r != "stop":
+        if r == "start":
+            r = game.run()
+        elif r == "startmenu":
+            startmenu = StartMenu(fenetre)
+            r = startmenu.run()
+        elif r == "respawn":
+            game.respawn()
+            r = game.run()
+    pygame.quit()
 
