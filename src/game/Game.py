@@ -2,6 +2,8 @@
 from game.map.Map import *
 from game.map.Editor import *
 from game.settings import *
+from menu.Pause import *
+from menu.GameOver import *
 import time
 
 class Game:
@@ -26,7 +28,7 @@ class Game:
     def run(self):
         last = 0
         while self.running:
-            while not self.pause:
+            while not self.pause and self.player.alive:
                 now = time.time()
                 if now - last < 1/Settings.FPS:
                     time.sleep(1/Settings.FPS - (now - last))
@@ -39,16 +41,40 @@ class Game:
                     self.fenetre.fill((255, 0, 255, 0.1))
                     self.render()
                     pygame.display.flip()
+            if self.pause:
+                pause = Pause(self.fenetre)
+                r = pause.run()
+                if r == "reprendre":
+                    self.setOffPause()
+                elif r == "startmenu":
+                    return "startmenu"
+                elif r == "stop":
+                    return "stop"
+            elif not self.player.alive:
+                gameover = GameOver(self.fenetre)
+                r = gameover.run()
+                if r == "respawn":
+                    self.respawn()
+                elif r == "startmenu":
+                    return "startmenu"
+                elif r == "stop":
+                    return "stop"
         return "startmenu"
 
-    def pause(self):
+    def setOnPause(self):
         self.pause = True
+
+    def setOffPause(self):
+        self.pause = False
 
     def getEvent(self):
         self.event = pygame.event.get()
         for e in self.event:
             if e.type == pygame.QUIT:
                 return "stop"
+        keys = pygame.key.get_pressed()
+        if keys[K_ESCAPE]:
+            self.setOnPause()
 
     def render(self):
         """rendu de la map et du joueur"""

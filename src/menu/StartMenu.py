@@ -1,5 +1,9 @@
 ﻿import pygame
 import pygame.locals
+import time
+from menu.Scores import *
+from menu.Options import *
+from game.map.Editor import *
 
 class StartMenu():
     def __init__(self, fenetre):
@@ -45,19 +49,23 @@ class StartMenu():
                 return "stop"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rect["play"].collidepoint(mouse):
-                    #self.main.game.respawn()
                     return "respawn"
                 elif self.rect["score"].collidepoint(mouse):
-                    print("a revoir")
-                    score = Scores(self.fenetre, self.main)
+                    score = Scores(self.fenetre)
+                    r = score.run()
+                    if r == "close":
+                        return 0
+                    else:
+                        return r
                 elif self.rect["option"].collidepoint(mouse):
-<<<<<<< Updated upstream
-                    option = Options(self.fenetre, self.main)
-=======
-                    Options()
->>>>>>> Stashed changes
+                    option = Options(self.fenetre)
+                    r = option.run()
+                    if r == "close":
+                        return 0
+                    else:
+                        return r
                 elif self.rect["edit"].collidepoint(mouse):
-                    ##self.main.game.editor.loop()
-                    return "editeur"
+                    editeur = Editor(self.fenetre)
+                    editeur.loop()
         return 0
 
