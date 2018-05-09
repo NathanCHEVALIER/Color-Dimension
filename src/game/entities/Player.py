@@ -44,8 +44,7 @@ class Player(Entity):
             pygame.draw.polygon(self.fenetre, self.color, [[946, 401], [948, 430], [971, 430]])
             self.fenetre.blit(self.image["gauche"], (910, 400))
 
-
-    def update(self):
+    def update(self, event):
         """update du joueur"""
         self.lastx = self.x
         self.lasty = self.y

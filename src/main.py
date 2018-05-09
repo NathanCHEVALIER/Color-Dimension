@@ -3,50 +3,21 @@ from game.Game import *
 from pygame.locals import *
 from menu.StartMenu import *
 
-
 class Main():
-    def __init__(self):
-        pygame.init()
-        self.fenetre = pygame.display.set_mode((1920, 1080))
+    pygame.init()
+    fenetre = pygame.display.set_mode((1920, 1080))
+    game = Game(fenetre, "tower")
 
-        self.game = Game(self.fenetre, "tower")
-        self.running = True
+    r = "startmenu"
+    while r != "stop":
+        if r == "start":
+            r = game.run()
+        elif r == "startmenu":
+            startmenu = StartMenu(fenetre)
+            r = startmenu.run()
+        elif r == "respawn":
+            game.respawn()
+            r = game.run()
+    pygame.quit()
 
-        self.playing = True
-        self.pause = False
-
-        self.last = time.time()
-
-        while self.running:
-        	self.event()
-        	startmenu = StartMenu(self.fenetre, self)
-        	while self.playing and self.running:
-        		if not startmenu.update():
-        			self.running = False
-        		startmenu.render()
-        		while self.game.player.alive and self.running and self.playing:
-        			self.event()
-        			while not self.pause and self.running and self.playing and self.game.player.alive:
-        				self.event()
-        				now = time.time()
-        				if now - self.last < 1/Settings.FPS:
-        					time.sleep(1/Settings.FPS - (now - self.last))
-        				else:
-        					self.last = time.time()
-        					self.game.update()
-        					self.fenetre.fill((255, 0, 255, 0.1))
-        					self.game.render()
-        					pygame.display.flip()
-
-        pygame.quit()
-
-
-    def event(self):
-        global running
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                self.running = False
-
-
-main = Main()
 

@@ -73,7 +73,7 @@
                     else:
                         if self.lastx >= rect.x + (rect.w / 2):
                             self.x = rect.x + rect.w
-                        elif lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
+                        elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
                             self.x = rect.x - self.hitbox[0].w
                         else:
                             print("La c'est la merde");

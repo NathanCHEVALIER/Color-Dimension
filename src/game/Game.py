@@ -18,7 +18,37 @@ class Game:
         self.enemies.append(Monster(self.fenetre, 3000, 1000, 0, self.player))
         self.enemies[0].setMap(self.map)
 
+        self.event = []
+        #etat
+        self.pause = False
+        self.running = True
 
+    def run(self):
+        last = 0
+        while self.running:
+            while not self.pause:
+                now = time.time()
+                if now - last < 1/Settings.FPS:
+                    time.sleep(1/Settings.FPS - (now - last))
+                else:
+                    last = time.time()
+                    r = self.getEvent()
+                    if r == "stop":
+                        return "stop"
+                    self.update()
+                    self.fenetre.fill((255, 0, 255, 0.1))
+                    self.render()
+                    pygame.display.flip()
+        return "startmenu"
+
+    def pause(self):
+        self.pause = True
+
+    def getEvent(self):
+        self.event = pygame.event.get()
+        for e in self.event:
+            if e.type == pygame.QUIT:
+                return "stop"
 
     def render(self):
         """rendu de la map et du joueur"""
@@ -33,8 +63,7 @@ class Game:
         self.map.update()
         for e in self.enemies:
             e.update()
-            print("x: ", e.x, " y :", e.y)
-        self.player.update()
+        self.player.update(self.event)
 
     def respawn(self):
         """remet le joeur à sa position de depart"""

@@ -56,8 +56,9 @@ class Monster(Entity):
             if self.onground and dy < -15:
                 self.vy = -60
                 self.onground = False
-
-
+        else:
+            self.vx = 0
+            self.vy = 0
 
         #ajout de la gravité et des vitesses
         self.vy += 9.81
