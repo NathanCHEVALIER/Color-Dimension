@@ -17,9 +17,19 @@ class Editor():
         self.image["plus"] = self.image["sprite"].subsurface(0, 0, 150, 150)
         self.image["save"] = self.image["sprite"].subsurface(150, 0, 100, 40)
         self.image["selector"] = self.image["sprite"].subsurface(0, 0, 400, 300)
+        self.image["countryside"] = self.image["sprite"].subsurface(0, 150, 100, 100)
+        self.image["desert"] = self.image["sprite"].subsurface(100, 150, 100, 100)
+        self.image["snow"] = self.image["sprite"].subsurface(0, 250, 100, 100)
+        self.image["castle"] = self.image["sprite"].subsurface(100, 250, 100, 100)
+        self.image["forest"] = self.image["sprite"].subsurface(0, 350, 100, 100)
+        self.image["sugar"] = self.image["sprite"].subsurface(100, 350, 100, 100)
+
         self.rects = {"plus": self.image["plus"].get_rect(), "save": self.image["save"].get_rect(),
         "menuMap": self.cadre[0].get_rect().move((500, 250)), "menuZone": self.cadre[0].get_rect().move((1120, 250)),
-        "inputTitle": self.cadre[1].get_rect().move((780, 270))}
+        "inputTitle": self.cadre[1].get_rect().move((780, 270)), "mapCountryside": self.image["countryside"].get_rect().move((0, 50)),
+        "mapDesert": self.image["desert"].get_rect().move((0, 50)), "mapSnow": self.image["snow"].get_rect().move((0, 50)),
+        "mapCastle": self.image["castle"].get_rect().move((0, 50)), "mapForest": self.image["forest"].get_rect().move((0, 50)),
+        "mapSugar": self.image["sugar"].get_rect().move((0, 50))}
 
         self.last = False
         self.home = True
@@ -60,6 +70,8 @@ class Editor():
         self.fenetre.blit(self.cadre[1], (780, 270))
         titleLabel = self.ecriture[0].render(self.title, 1, (255,255,255))
         self.fenetre.blit(titleLabel, (790, 270))
+        self.fenetre.blit(self.image["countryside"], (790, 320))
+        self.fenetre.blit(self.image["countryside"], (500, 10))
 
         pygame.display.flip()
 
@@ -79,7 +91,6 @@ class Editor():
                 lettre = event.dict['unicode']
                 if ('a' <= lettre <= 'z' or 'A' <= lettre <= 'Z') and self.selected == 1:
                     self.title = self.title + lettre
-                    print(self.title)
         return True
 
     def renderMenu(self):

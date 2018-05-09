@@ -3,9 +3,9 @@ import pygame
 import pygame.locals
 
 datascore = json.load(open('../data/scorelist.json'))
-print(datascore['scores']['1'])
-print(datascore['scores']['2'])
-print(datascore['scores']['3'])
+print(datascore[0]['scores']['1'])
+print(datascore[0]['scores']['2'])
+print(datascore[0]['scores']['3'])
 
 class Scores():
     def __init__(self, fenetre, main):
