@@ -59,14 +59,24 @@ class Player(Entity):
         if not(keys[K_a] or keys[K_d]):
             self.vx = 0
 
-        if keys[K_w]:
-            self.z += -60
-        if keys[K_s]:
-            self.z += 60
-        if self.z < 0:
-            self.z = 0
-        elif self.z > 1530:
-            self.z = 1530
+##        if keys[K_w]:
+##            self.z += -60
+##        if keys[K_s]:
+##            self.z += 60
+##        if self.z < 0:
+##            self.z = 0
+##        elif self.z > 1530:
+##            self.z = 1530
+        for e in event:
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                if e.button == 4:
+                    self.z -= 102
+                if e.button == 5:
+                    self.z += 102
+                if self.z < 0:
+                    self.z = 0
+                elif self.z > 1530:
+                    self.z = 1530
 
 
         if keys[K_SPACE]:
