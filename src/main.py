@@ -19,4 +19,3 @@ class Main():
             game.respawn()
             r = game.run()
     pygame.quit()
-

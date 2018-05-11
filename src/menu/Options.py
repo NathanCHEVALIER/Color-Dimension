@@ -22,7 +22,7 @@ class Options():
         self.rect["option2"] = self.image["option2"].get_rect().move(730, 572.5)
         self.rect["option3"] = self.image["option3"].get_rect().move(730, 672.5)
         self.rect["option4"] = self.image["option4"].get_rect().move(730, 772.5)
-        self.rect["option4"] = self.image["option5"].get_rect().move(730, 872.5)
+        self.rect["option5"] = self.image["option5"].get_rect().move(730, 872.5)
 
 
 

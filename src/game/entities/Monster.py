@@ -56,6 +56,9 @@ class Monster(Entity):
             if self.onground and dy < -15:
                 self.vy = -60
                 self.onground = False
+        if dd == 0:
+            self.vx = 0
+
         else:
             self.vx = 0
             self.vy = 0
