@@ -14,22 +14,23 @@ class Editor():
 
         self.image = {"sprite": 0}
         self.image["sprite"] =  pygame.image.load('../img/editeur/sprite.png')
-        self.image["plus"] = self.image["sprite"].subsurface(0, 0, 150, 150)
-        self.image["save"] = self.image["sprite"].subsurface(150, 0, 100, 40)
+        self.image["plus"] = self.image["sprite"].subsurface(0, 0, 100, 99)
+        self.image["save"] = self.image["sprite"].subsurface(100, 0, 100, 40)
         self.image["selector"] = self.image["sprite"].subsurface(0, 0, 400, 300)
-        self.image["countryside"] = self.image["sprite"].subsurface(0, 150, 100, 100)
-        self.image["desert"] = self.image["sprite"].subsurface(100, 150, 100, 100)
-        self.image["snow"] = self.image["sprite"].subsurface(0, 250, 100, 100)
-        self.image["castle"] = self.image["sprite"].subsurface(100, 250, 100, 100)
-        self.image["forest"] = self.image["sprite"].subsurface(0, 350, 100, 100)
-        self.image["sugar"] = self.image["sprite"].subsurface(100, 350, 100, 100)
+        self.image["countryside"] = self.image["sprite"].subsurface(0, 100, 100, 100)
+        self.image["desert"] = self.image["sprite"].subsurface(100, 100, 100, 100)
+        self.image["snow"] = self.image["sprite"].subsurface(0, 200, 100, 100)
+        self.image["castle"] = self.image["sprite"].subsurface(100, 200, 100, 100)
+        self.image["forest"] = self.image["sprite"].subsurface(0, 300, 100, 100)
+        self.image["sugar"] = self.image["sprite"].subsurface(100, 300, 100, 100)
+        self.image["border"] = self.image["sprite"].subsurface(0, 400, 100, 100)
 
         self.rects = {"plus": self.image["plus"].get_rect(), "save": self.image["save"].get_rect(),
         "menuMap": self.cadre[0].get_rect().move((500, 250)), "menuZone": self.cadre[0].get_rect().move((1120, 250)),
-        "inputTitle": self.cadre[1].get_rect().move((780, 270)), "mapCountryside": self.image["countryside"].get_rect().move((0, 50)),
-        "mapDesert": self.image["desert"].get_rect().move((0, 50)), "mapSnow": self.image["snow"].get_rect().move((0, 50)),
-        "mapCastle": self.image["castle"].get_rect().move((0, 50)), "mapForest": self.image["forest"].get_rect().move((0, 50)),
-        "mapSugar": self.image["sugar"].get_rect().move((0, 50))}
+        "inputTitle": self.cadre[1].get_rect().move((780, 270)), "mapCountryside": self.image["countryside"].get_rect().move((790, 350)),
+        "mapDesert": self.image["desert"].get_rect().move((910, 350)), "mapSnow": self.image["snow"].get_rect().move((1030, 350)),
+        "mapCastle": self.image["castle"].get_rect().move((790, 470)), "mapForest": self.image["forest"].get_rect().move((910, 470)),
+        "mapSugar": self.image["sugar"].get_rect().move((1030, 470)), "saveMap": self.image["save"].get_rect().move((910, 600))}
 
         self.last = False
         self.home = True
@@ -70,8 +71,13 @@ class Editor():
         self.fenetre.blit(self.cadre[1], (780, 270))
         titleLabel = self.ecriture[0].render(self.title, 1, (255,255,255))
         self.fenetre.blit(titleLabel, (790, 270))
-        self.fenetre.blit(self.image["countryside"], (790, 320))
-        self.fenetre.blit(self.image["countryside"], (500, 10))
+        self.fenetre.blit(self.image["countryside"], (790, 350))
+        self.fenetre.blit(self.image["desert"], (910, 350))
+        self.fenetre.blit(self.image["snow"], (1030, 350))
+        self.fenetre.blit(self.image["castle"], (790, 470))
+        self.fenetre.blit(self.image["forest"], (910, 470))
+        self.fenetre.blit(self.image["sugar"], (1030, 470))
+        self.fenetre.blit(self.image["save"], (910, 600))
 
         pygame.display.flip()
 
@@ -87,6 +93,12 @@ class Editor():
                 if self.rects["inputTitle"].collidepoint(mouse):
                     self.selected = 1
                     print(self.selected)
+                elif self.rects["mapCountryside"].collidepoint(mouse):
+                    self.selected = "countryside"
+                elif self.rects["mapDesert"].collidepoint(mouse):
+                    self.selected = "desert"
+                elif self.rects["saveMap"].collidepoint(mouse):
+                    self.saveMap(self.title, self.selected)
             if event.type == pygame.KEYDOWN :
                 lettre = event.dict['unicode']
                 if ('a' <= lettre <= 'z' or 'A' <= lettre <= 'Z') and self.selected == 1:
@@ -97,8 +109,8 @@ class Editor():
         self.fenetre.blit(self.fond, (0,0))
         self.fenetre.blit(self.cadre[0], (500, 250))
         self.fenetre.blit(self.cadre[0], (1020, 250))
-        self.fenetre.blit(self.image['plus'], (625, 450))
-        self.fenetre.blit(self.image['plus'], (1145, 450))
+        self.fenetre.blit(self.image['plus'], (650, 450))
+        self.fenetre.blit(self.image['plus'], (1170, 450))
 
         mapName = self.ecriture[0].render("Créer une Map", 1, (255,255,255))
         self.fenetre.blit(mapName, (580, 630))
@@ -118,3 +130,6 @@ class Editor():
                 if self.rects["menuMap"].collidepoint(mouse):
                     self.creating = True
         return True
+
+    def saveMap(self, title, decor):
+        newMap = {"limit": [0, 0, 6000, 12000]}
