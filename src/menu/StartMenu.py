@@ -3,6 +3,7 @@ import pygame.locals
 import time
 from menu.Scores import *
 from menu.Options import *
+from menu.Mur import *
 from game.map.Editor import *
 
 class StartMenu():
@@ -19,7 +20,7 @@ class StartMenu():
         self.rect["score"] = self.image["score"].get_rect().move(805, 587)
         self.rect["option"] = self.image["option"].get_rect().move(805, 729)
         self.rect["edit"] = self.image["edit"].get_rect().move(805, 871)
-
+        self.rect["mur"] = pygame.Rect(1900, 0, 20, 20)
         #self.rect = {"option" : pygame.Rect(500, 400)}
         self.last = False
 
@@ -65,5 +66,8 @@ class StartMenu():
                 elif self.rect["edit"].collidepoint(mouse):
                     editeur = Editor(self.fenetre)
                     editeur.loop()
+                elif self.rect["mur"].collidepoint(mouse):
+                    mur = Mur(self.fenetre)
+                    mur.run()
         return 0
 
