@@ -40,7 +40,6 @@
                 #bas
                 elif self.lasty >= rect.y + rect.h:
                     self.y = rect.y + rect.h
-
                 #milieu
                 else:
                     if self.lastx >= rect.x + (rect.w / 2):

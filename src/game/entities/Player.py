@@ -19,6 +19,9 @@ class Player(Entity):
         self.side = "droite"
         self.steep = 0
 
+        #son
+        self.son = {"saut" : pygame.mixer.Sound("../music/saut.wav")}
+
         #image pour le rendu
         self.image = {"droite": {}, "gauche" : {}}
         for i in range(0, 30):
@@ -99,6 +102,7 @@ class Player(Entity):
 
         if keys[K_SPACE]:
             if self.onground:
+                self.son["saut"].play()
                 self.vy -= 90
                 self.onground = False
 
