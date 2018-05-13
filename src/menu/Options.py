@@ -5,7 +5,9 @@ import time
 class Options():
     def __init__(self, fenetre):
         self.fenetre = fenetre
-        self.image = {"title" : pygame.image.load('../img/menu/title2.png')}
+        self.text12 = [pygame.font.Font('../font/impact.ttf', 40)]
+        self.text345 = [pygame.font.Font('../font/impact.ttf', 32)]
+        self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
         self.image["close"] = pygame.image.load('../img/menu/close.png')
         self.image["page"] = pygame.image.load('../img/menu/page.png')
         self.image["option1"] = pygame.image.load('../img/menu/option1.png')
@@ -46,6 +48,19 @@ class Options():
         self.fenetre.blit(self.image["option3"], (730, 672.5))
         self.fenetre.blit(self.image["option4"], (730, 772.5))
         self.fenetre.blit(self.image["option5"], (730, 872.5))
+
+        text_option1 = self.text12[0].render('D', 1, (242,242,242))
+        self.fenetre.blit(text_option1, (1122.5, 485))
+        text_option2 = self.text12[0].render('Q', 1, (242,242,242))
+        self.fenetre.blit(text_option2, (1122.5, 585))
+        text_option3 = self.text345[0].render('mh', 1, (242,242,242))
+        self.fenetre.blit(text_option3, (1112, 687))
+        text_option4 = self.text345[0].render('mb', 1, (242,242,242))
+        self.fenetre.blit(text_option4, (1112, 785))
+        text_option5 = self.text345[0].render("sp", 1, (242,242,242))
+        self.fenetre.blit(text_option5, (1116, 885))
+
+
         pygame.display.flip()
 
     def update(self):

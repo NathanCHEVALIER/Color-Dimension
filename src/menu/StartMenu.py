@@ -8,7 +8,7 @@ from game.map.Editor import *
 class StartMenu():
     def __init__(self, fenetre):
         self.fenetre = fenetre
-        self.image = {"title" : pygame.image.load('../img/menu/title2.png')}
+        self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
         self.image["play"] = pygame.image.load('../img/menu/play.png')
         self.image["score"] = pygame.image.load('../img/menu/score.png')
         self.image["option"] = pygame.image.load('../img/menu/option.png')

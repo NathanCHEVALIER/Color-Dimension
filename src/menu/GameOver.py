@@ -10,9 +10,9 @@ class GameOver():
         self.image["GOrejouer"] = pygame.image.load('../img/menu/GOrejouer.png')
 
 
-        self.rect = {"GOpage" : self.image["GOpage"].get_rect().move(685, 200)}
-        self.rect["GOmenu"] = self.image["GOmenu"].get_rect().move(825, 700)
-        self.rect["GOrejouer"] = self.image["GOrejouer"].get_rect().move(1085, 700)
+        self.rect = {"GOpage" : self.image["GOpage"].get_rect().move(685, 250)}
+        self.rect["GOmenu"] = self.image["GOmenu"].get_rect().move(705, 740)
+        self.rect["GOrejouer"] = self.image["GOrejouer"].get_rect().move(965, 740)
         self.last = False
 
     def run(self):
@@ -24,9 +24,9 @@ class GameOver():
         return r
 
     def render(self):
-        self.fenetre.blit(self.image["GOpage"], (685, 300))
-        self.fenetre.blit(self.image["GOmenu"], (825, 700))
-        self.fenetre.blit(self.image["GOrejouer"], (1085,700))
+        self.fenetre.blit(self.image["GOpage"], (685, 250))
+        self.fenetre.blit(self.image["GOmenu"], (705, 740))
+        self.fenetre.blit(self.image["GOrejouer"], (965,740))
         pygame.display.flip()
 
     def update(self):
