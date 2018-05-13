@@ -9,6 +9,11 @@ from game.map.Editor import *
 class StartMenu():
     def __init__(self, fenetre):
         self.fenetre = fenetre
+
+         #son
+        self.music = pygame.mixer.Sound("../music/musique.wav")
+
+
         self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
         self.image["play"] = pygame.image.load('../img/menu/play.png')
         self.image["score"] = pygame.image.load('../img/menu/score.png')
@@ -25,6 +30,7 @@ class StartMenu():
         self.last = False
 
     def run(self):
+        self.music.play()
         r = 0
         while r == 0:
             r = self.update()
@@ -48,6 +54,7 @@ class StartMenu():
                 return "stop"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rect["play"].collidepoint(mouse):
+                    self.music.stop()
                     return "respawn"
                 elif self.rect["score"].collidepoint(mouse):
                     score = Scores(self.fenetre)
@@ -65,6 +72,7 @@ class StartMenu():
                         return r
                 elif self.rect["edit"].collidepoint(mouse):
                     editeur = Editor(self.fenetre)
+                    self.music.stop()
                     editeur.loop()
                 elif self.rect["mur"].collidepoint(mouse):
                     mur = Mur(self.fenetre)
