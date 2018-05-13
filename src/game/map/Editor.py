@@ -9,7 +9,7 @@ class Editor():
         self.fenetre = fenetre
         self.fond = pygame.Surface((1920, 1080))
         self.fond.fill((50,50,50))
-        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((170, 3)), pygame.Surface((300, 1080))]
+        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((170, 3)), pygame.Surface((200, 1080))]
         self.cadre[0].fill((80,80,80))
         self.cadre[1].fill((70,70,70))
         self.cadre[2].fill((70,70,70))
@@ -58,7 +58,7 @@ class Editor():
         self.inputSelected = 0
         self.listSelected = 0
         self.camPos = {"x": 5, "y": 9}
-        self.current = {}
+        self.current = {"element": "empty"}
         self.cases = []
 
     def loop(self):
@@ -92,6 +92,14 @@ class Editor():
         self.image["zone"] = pygame.Surface((self.dataMap[self.current[0]][self.current[1]]["limit"][2], self.dataMap[self.current[0]][self.current[1]]["limit"][3]))
         self.image["zone"].fill((255,0,0))
 
+        self.image["sprite"] = pygame.image.load('../img/' + self.dataMap[self.current[0]]["limit"][4] + '.png')
+        self.image["plateforme"] = self.image["sprite"].subsurface(0, 0, 100, 50)
+        self.rects["plateforme"] = self.image["plateforme"].get_rect().move((50, 100))
+        self.image["piege"] = self.image["sprite"].subsurface(0, 100, 100, 50)
+        self.rects["piege"] = self.image["piege"].get_rect().move((50, 300))
+        self.image["colorPlateforme"] = self.image["sprite"].subsurface(0, 50, 100, 50)
+        self.rects["colorPlateforme"] = self.image["colorPlateforme"].get_rect().move((50, 200))
+
         self.cases = [["empty"] * int(self.dataMap[self.current[0]][self.current[1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current[0]][self.current[1]]["limit"][3] / 50))]
 
     def renderEditor(self):
@@ -103,12 +111,15 @@ class Editor():
             for c in range(0, len(self.cases[i])):
                 self.image["zone"].blit(self.image[self.cases[i][c]], (c * 100, i*50))
 
-        self.fenetre.blit(self.cadre[4], (0,0))
         pygame.draw.circle(self.fenetre, (130,130,130), (1775, 935), 75)
         self.fenetre.blit(self.image["up"], (1750, 870))
         self.fenetre.blit(self.image["down"], (1750, 975))
         self.fenetre.blit(self.image["left"], (1710, 910))
         self.fenetre.blit(self.image["right"], (1815, 910))
+        self.fenetre.blit(self.cadre[4], (0,0))
+        self.fenetre.blit(self.image["plateforme"], (50, 100))
+        self.fenetre.blit(self.image["colorPlateforme"], (50, 200))
+        self.fenetre.blit(self.image["piege"], (50, 300))
 
         pygame.display.flip()
 
@@ -127,9 +138,15 @@ class Editor():
                     self.camPos["x"] += 1
                 elif self.rects["btnLeft"].collidepoint(mouse) and self.camPos["x"] >= 0:
                     self.camPos["x"] -= 1
+                elif self.rects["plateforme"].collidepoint(mouse):
+                    self.current["element"] = "plateforme"
+                elif self.rects["colorPlateforme"].collidepoint(mouse):
+                    self.current["element"] = "colorPlateforme"
+                elif self.rects["piege"].collidepoint(mouse):
+                    self.current["element"] = "piege"
                 else:
                     mousePos = pygame.mouse.get_pos()
-                    self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = "save"
+                    self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = self.current["element"]
 
         return True
 
