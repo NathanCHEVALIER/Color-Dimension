@@ -31,7 +31,6 @@ class StartMenu():
             time.sleep(1/30)
         return r
 
-
     def render(self):
         self.fenetre.fill((255, 0, 255, 1))
         self.fenetre.blit(self.image["title"], (0, 0))
@@ -39,7 +38,6 @@ class StartMenu():
         self.fenetre.blit(self.image["score"], (805, 587))
         self.fenetre.blit(self.image["option"], (805, 729))
         self.fenetre.blit(self.image["edit"], (805, 871))
-
         pygame.display.flip()
 
     def update(self):

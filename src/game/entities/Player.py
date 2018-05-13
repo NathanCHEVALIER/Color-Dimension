@@ -13,13 +13,22 @@ class Player(Entity):
         self.alive = True
         self.onground = False
 
+
         self.color = (255, 0, 0)
 
+        self.side = "droite"
+        self.steep = 0
+
+        #son
+        self.son = {"saut" : pygame.mixer.Sound("../music/saut.wav")}
+
         #image pour le rendu
-        self.image = {"droite": pygame.image.load('../img/leila.png')}
-        self.image["gauche"] = pygame.image.load('../img/leila2.png')
-        self.image["droite"] = pygame.transform.scale(self.image["droite"], (100, 150))
-        self.image["gauche"] = pygame.transform.scale(self.image["gauche"], (100, 150))
+        self.image = {"droite": {}, "gauche" : {}}
+        for i in range(0, 30):
+            self.image["droite"][i] = pygame.image.load('../img/licorne_droite/out' + str(i) + '.png')
+            self.image["droite"][i] = pygame.transform.scale(self.image["droite"][i], (100, 150))
+            self.image["gauche"][i] = pygame.image.load('../img/licorne_gauche/out' + str(i) + '.png')
+            self.image["gauche"][i] = pygame.transform.scale(self.image["gauche"][i], (100, 150))
 
         #rect pour les collisions
         self.hitbox = []
@@ -37,12 +46,22 @@ class Player(Entity):
 
     def render(self):
         """rendu du joueur"""
-        if self.vx >= 0:
-            pygame.draw.polygon(self.fenetre, self.color, [[973, 401], [948, 430], [971, 430]])
-            self.fenetre.blit(self.image["droite"], (910, 400))
+        if self.vx != 0:
+            if self.side == "droite":
+                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
+                self.steep = (self.steep + 1) % 30
+                self.fenetre.blit(self.image["droite"][self.steep], (910, 400))
+            elif self.side == "gauche":
+                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
+                self.steep = (self.steep + 1) % 30
+                self.fenetre.blit(self.image["gauche"][self.steep], (910, 400))
         else:
-            pygame.draw.polygon(self.fenetre, self.color, [[946, 401], [948, 430], [971, 430]])
-            self.fenetre.blit(self.image["gauche"], (910, 400))
+            if self.side == "droite":
+                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
+                self.fenetre.blit(self.image["droite"][0], (910, 400))
+            elif self.side == "gauche":
+                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
+                self.fenetre.blit(self.image["gauche"][0], (910, 400))
 
     def update(self, event):
         """update du joueur"""
@@ -54,8 +73,10 @@ class Player(Entity):
         keys = pygame.key.get_pressed()
         if keys[K_a]:
             self.vx = -20
+            self.side = "gauche"
         if keys[K_d]:
             self.vx = 20
+            self.side = "droite"
         if not(keys[K_a] or keys[K_d]):
             self.vx = 0
 
@@ -81,6 +102,7 @@ class Player(Entity):
 
         if keys[K_SPACE]:
             if self.onground:
+                self.son["saut"].play()
                 self.vy -= 90
                 self.onground = False
 

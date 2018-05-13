@@ -20,12 +20,16 @@ class Game:
         self.enemies.append(Monster(self.fenetre, 3000, 1000, 0, self.player))
         self.enemies[0].setMap(self.map)
 
+        #son
+        self.music = pygame.mixer.Sound("../music/musique.wav")
+
         self.event = []
         #etat
         self.pause = False
         self.running = True
 
     def run(self):
+        self.music.play()
         last = 0
         while self.running:
             while not self.pause and self.player.alive:
@@ -47,8 +51,10 @@ class Game:
                 if r == "reprendre":
                     self.setOffPause()
                 elif r == "startmenu":
+                    self.exit()
                     return "startmenu"
                 elif r == "stop":
+                    self.exit()
                     return "stop"
             elif not self.player.alive:
                 gameover = GameOver(self.fenetre)
@@ -56,10 +62,16 @@ class Game:
                 if r == "respawn":
                     self.respawn()
                 elif r == "startmenu":
+                    self.exit()
                     return "startmenu"
                 elif r == "stop":
+                    self.exit()
                     return "stop"
+        self.exit()
         return "startmenu"
+
+    def exit(self):
+        self.music.stop()
 
     def setOnPause(self):
         self.pause = True

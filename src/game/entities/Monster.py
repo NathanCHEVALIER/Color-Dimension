@@ -16,12 +16,12 @@ class Monster(Entity):
         #image pour le rendu
         self.image = {"droite": pygame.image.load('../img/monster.png')}
         self.image["gauche"] = pygame.image.load('../img/monster2.png')
-        self.image["droite"] = pygame.transform.scale(self.image["droite"], (100, 150))
-        self.image["gauche"] = pygame.transform.scale(self.image["gauche"], (100, 150))
+        self.image["droite"] = pygame.transform.scale(self.image["droite"], (65, 100))
+        self.image["gauche"] = pygame.transform.scale(self.image["gauche"], (65, 100))
 
         #rect pour les collisions
         self.hitbox = []
-        self.hitbox.append(pygame.Rect(0, 0, 100, 148))
+        self.hitbox.append(pygame.Rect(0, 0, 65, 100))
         self.hitbox.append(pygame.Rect(18, 15, 82, 74))
         self.hitbox.append(pygame.Rect(18, 89, 51, 59))
 
@@ -35,12 +35,9 @@ class Monster(Entity):
 
     def render(self, x, y):
         if self.vx >= 0:
-            pygame.draw.polygon(self.fenetre, self.color, [[973, 401], [948, 430], [971, 430]])
             self.fenetre.blit(self.image["droite"], (x, y))
         else:
-            pygame.draw.polygon(self.fenetre, self.color, [[946, 401], [948, 430], [971, 430]])
             self.fenetre.blit(self.image["gauche"], (x, y))
-
 
     def update(self):
         self.lastx = self.x
@@ -51,14 +48,13 @@ class Monster(Entity):
         dx = self.target.x - self.x
         dy = self.target.y - self.y
         dd = math.sqrt((dx)**2 + (dy)**2)
-        if dd < 500:
-            self.vx = (dx / dd) * 15
-            if self.onground and dy < -15:
-                self.vy = -60
-                self.onground = False
         if dd == 0:
             self.vx = 0
-
+        elif dd < 500:
+            self.vx = (dx / dd) * 10
+            if self.onground and dy < -15:
+                self.vy = -50
+                self.onground = False
         else:
             self.vx = 0
             self.vy = 0

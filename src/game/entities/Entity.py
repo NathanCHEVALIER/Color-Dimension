@@ -40,7 +40,6 @@
                 #bas
                 elif self.lasty >= rect.y + rect.h:
                     self.y = rect.y + rect.h
-
                 #milieu
                 else:
                     if self.lastx >= rect.x + (rect.w / 2):
@@ -48,8 +47,7 @@
                     elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
                         self.x = rect.x - self.hitbox[0].w
                     else:
-                        print("La c'est la merde");
-
+                        print("La c'est la merde")
                 self.hitbox[0].x = self.x
                 self.hitbox[0].y = self.y
 
@@ -68,7 +66,6 @@
                     #bas
                     elif self.lasty >= rect.y + rect.h:
                         self.y = rect.y + rect.h
-
                     #milieu
                     else:
                         if self.lastx >= rect.x + (rect.w / 2):
