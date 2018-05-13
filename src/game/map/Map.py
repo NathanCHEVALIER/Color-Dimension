@@ -36,7 +36,7 @@ class Map:
         self.image["sprite"] = pygame.image.load('../img/' + content[mapId]["limit"][4] + '.png')
         plateforme = self.image["sprite"].subsurface(0, 0, 100, 50)
         self.image["plateforme"] = [plateforme, plateforme.get_rect()]
-        piege = self.image["sprite"].subsurface(0, 100, 100, 30)
+        piege = self.image["sprite"].subsurface(0, 120, 100, 30)
         self.image["piege"] = [piege, piege.get_rect()]
         colorPlateforme = self.image["sprite"].subsurface(0, 50, 100, 50)
         self.image["colorPlateforme"] = [colorPlateforme, colorPlateforme.get_rect()]
