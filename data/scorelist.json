@@ -1,14 +1,8 @@
 [
 	{"scores": {"1": 200,
 			"2": 100,
-			"3": 5
+			"3": 50
 			}
-	},
-	{"options": {"gauche" :"a",
-			 "droite" :"d",
-			 "sup" : "w",
-			 "inf" : "s",
-			 "sauter" :" "}
 	}
 ]
 
