@@ -33,12 +33,12 @@ class Map:
     def loadMap(self, mapId, zoneId):
         file = open('../data/map.json')
         content = json.load(file)
-        self.image["sprite"] = pygame.image.load('../img/sprite' + mapId + '.png')
-        plateforme = self.image["sprite"].subsurface(300, 300, 100, 50)
+        self.image["sprite"] = pygame.image.load('../img/' + content[mapId]["limit"][4] + '.png')
+        plateforme = self.image["sprite"].subsurface(0, 0, 100, 50)
         self.image["plateforme"] = [plateforme, plateforme.get_rect()]
-        piege = self.image["sprite"].subsurface(300, 120, 100, 30)
+        piege = self.image["sprite"].subsurface(0, 100, 100, 30)
         self.image["piege"] = [piege, piege.get_rect()]
-        colorPlateforme = self.image["sprite"].subsurface(300, 200, 100, 50)
+        colorPlateforme = self.image["sprite"].subsurface(0, 50, 100, 50)
         self.image["colorPlateforme"] = [colorPlateforme, colorPlateforme.get_rect()]
         if zoneId != False:
             return content[mapId][zoneId]

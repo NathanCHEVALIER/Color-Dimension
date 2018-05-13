@@ -17,7 +17,7 @@ class Editor():
         self.cadre[4].fill((50,50,50))
 
         self.image = {"sprite": 0}
-        self.image["sprite"] =  pygame.image.load('../img/editeur/sprite.png')
+        self.image["sprite"] =  pygame.image.load('../img/editeur.png')
         self.image["plus"] = self.image["sprite"].subsurface(0, 0, 100, 99)
         self.image["save"] = self.image["sprite"].subsurface(100, 0, 100, 40)
         self.image["countryside"] = self.image["sprite"].subsurface(0, 100, 100, 100)
