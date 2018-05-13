@@ -2,6 +2,7 @@
 import pygame
 import time
 import pygame.locals
+from game.tools import *
 
 class Editor():
     def __init__(self, fenetre):
@@ -103,12 +104,24 @@ class Editor():
 
         self.cases = [["empty"] * int(self.dataMap[self.current[0]][self.current[1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current[0]][self.current[1]]["limit"][3] / 50))]
 
+        for i in self.dataMap[self.current[0]][self.current[1]]["plateforme"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][0]/100) + c] = "plateforme"
+
+        for i in self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][0]/100) + c] = "colorPlateforme"
+
+        for i in self.dataMap[self.current[0]][self.current[1]]["piege"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][0]/100) + c] = "piege"
+
     def renderEditor(self):
         self.fenetre.blit(self.fond, (0,0))
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
         self.image["background"].blit(self.image["zone"], (1000, 1000))
 
-        self.image["zone"].fill((0, 0, 255, 1))
+        self.image["zone"].fill((210, 210,210))
         for i in range(0, len(self.cases)):
             for c in range(0, len(self.cases[i])):
                 self.image["zone"].blit(self.image[self.cases[i][c]], (c * 100, i*50))
@@ -116,7 +129,7 @@ class Editor():
 
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
 
-        pygame.draw.circle(self.fenetre, (130,130,130), (1775, 935), 75)
+        pygame.draw.circle(self.fenetre, (100,100,100, 0.3), (1775, 935), 75)
         self.fenetre.blit(self.image["up"], (1750, 870))
         self.fenetre.blit(self.image["down"], (1750, 975))
         self.fenetre.blit(self.image["left"], (1710, 910))
@@ -153,8 +166,6 @@ class Editor():
                 else:
                     mousePos = pygame.mouse.get_pos()
                     self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = self.current["element"]
-                    print(self.current["element"])
-                    print(self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)])
 
         return True
 
