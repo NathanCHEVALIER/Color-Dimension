@@ -52,6 +52,7 @@ class Game:
                     self.setOffPause()
                 elif r == "startmenu":
                     self.exit()
+                    self.setOffPause()
                     return "startmenu"
                 elif r == "stop":
                     self.exit()

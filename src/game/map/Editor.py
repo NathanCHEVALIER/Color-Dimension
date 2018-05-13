@@ -108,6 +108,7 @@ class Editor():
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
         self.image["background"].blit(self.image["zone"], (1000, 1000))
 
+        self.image["zone"].fill((0, 0, 255, 1))
         for i in range(0, len(self.cases)):
             for c in range(0, len(self.cases[i])):
                 self.image["zone"].blit(self.image[self.cases[i][c]], (c * 100, i*50))
