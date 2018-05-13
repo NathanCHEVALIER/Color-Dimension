@@ -8,7 +8,7 @@ class Main():
     fenetre = pygame.display.set_mode((1920, 1080))
     game = Game(fenetre, "tower")
 
-    r = "startmenu"
+    r = "respawn"
     while r != "stop":
         if r == "start":
             r = game.run()
