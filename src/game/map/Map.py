@@ -13,6 +13,7 @@ class Map:
         self.posZone = 0
         self.image = {"sprite": 0, "plateforme": 0, "piege": 0, "colorPlateforme": 0}
         self.rects = {"plateforme": [], "piege": [], "colorPlateforme": []}
+        self.music = ''
 
         self.generateMap(self.mapId)
 
@@ -34,6 +35,7 @@ class Map:
         file = open('../data/map.json')
         content = json.load(file)
         self.image["sprite"] = pygame.image.load('../img/' + content[mapId]["limit"][4] + '.png')
+        self.music = '../music/' + content[mapId]["limit"][4] + '.wav'
         plateforme = self.image["sprite"].subsurface(0, 0, 100, 50)
         self.image["plateforme"] = [plateforme, plateforme.get_rect()]
         piege = self.image["sprite"].subsurface(0, 120, 100, 30)
@@ -85,3 +87,7 @@ class Map:
         self.level.blit(self.zone, self.posZone)
         self.fenetre.blit(self.level, pos)
         pygame.display.flip()
+
+    def getMusic(self):
+        music = pygame.mixer.Sound(self.music)
+        return music

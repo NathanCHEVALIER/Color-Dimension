@@ -23,7 +23,7 @@ class Game:
         self.enemies[0].setMap(self.map)
 
         #son
-        self.music = pygame.mixer.Sound("../music/musique.wav")
+        self.music = self.map.getMusic()
 
         self.event = []
         #etat
