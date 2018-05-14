@@ -5,7 +5,7 @@ from menu.StartMenu import *
 
 class Main():
     pygame.init()
-    fenetre = pygame.display.set_mode((1920, 1080))## """, pygame.FULLSCREEN | pygame.DOUBLEBUF""" )
+    fenetre = pygame.display.set_mode((1920, 1080))## , pygame.FULLSCREEN | pygame.DOUBLEBUF )
     game = Game(fenetre, "tower")
 
     r = "startmenu"
