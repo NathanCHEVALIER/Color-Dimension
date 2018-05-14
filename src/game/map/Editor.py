@@ -48,7 +48,7 @@ class Editor():
         "listUp": self.image["up"].get_rect().move((1080, 460)), "listDown": self.image["down"].get_rect().move((1080, 500)),
         "btnDown": self.image["down"].get_rect().move((1750, 975)), "btnUp": self.image["up"].get_rect().move((1750, 870)),
         "btnRight": self.image["right"].get_rect().move((1815, 910)), "btnLeft": self.image["left"].get_rect().move((1710, 910)),
-        "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000))}
+        "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000)), "saveEdit": self.image["save"].get_rect().move((50, 950))}
 
         self.last = False
         self.home = True
@@ -119,6 +119,9 @@ class Editor():
             for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][2] / 100)):
                 self.cases[int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][0]/100) + c] = ["piege", False]
 
+
+        self.newMap = {"limit": self.dataMap[self.current[0]][self.current[1]]["limit"], "plateforme": {}, "piege": {}, "colorPlateforme": {}}
+
     def renderEditor(self):
         self.fenetre.blit(self.fond, (0,0))
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
@@ -145,6 +148,7 @@ class Editor():
         self.fenetre.blit(self.image["piege"], (50, 290))
         self.fenetre.blit(self.image["paletteColor"], (200, 1000))
         self.fenetre.blit(self.image["cursor"], (205 + (int(self.current["element"][1]) / 10), 1000 ))
+        self.fenetre.blit(self.image["save"], (50, 950))
 
         pygame.display.flip()
 
@@ -169,12 +173,18 @@ class Editor():
                     self.current["element"][0] = "colorPlateforme"
                 elif self.rects["piege"].collidepoint(mouse):
                     self.current["element"][0] = "piege"
+                elif self.rects["empty"].collidepoint(mouse):
+                    self.current["element"][0] = "empty"
                 elif self.rects["paletteColor"].collidepoint(mouse):
                     mousePos = pygame.mouse.get_pos()
                     self.current["element"][1] = (mousePos[0] - 210)*10
+                elif self.rects["saveEdit"].collidepoint(mouse):
+                    self.saveMap()
+                    self.editing = False
+                    return False
                 else:
                     mousePos = pygame.mouse.get_pos()
-                    self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = self.current["element"]
+                    self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = [self.current["element"][0], self.current["element"][1]]
 
         return True
 
@@ -276,7 +286,7 @@ class Editor():
                 elif self.rects["sugar"].collidepoint(mouse):
                     self.map["selected"] = "sugar"
                 elif self.rects["save"].collidepoint(mouse):
-                    self.saveMap()
+                    self.createMap()
                     return False
             if event.type == pygame.KEYDOWN :
                 lettre = event.dict['unicode']
@@ -314,7 +324,7 @@ class Editor():
                     self.creating = True
         return True
 
-    def saveMap(self):
+    def createMap(self):
         file = open('../data/map.json', 'r+')
         content = json.load(file)
         newMap = {"limit": [0, 0, int(self.map["width"]) * 100 + 2000, int(self.map["height"]) * 50 + 2000, self.map["selected"]],
@@ -325,6 +335,46 @@ class Editor():
         file.truncate()
         file.close()
         self.creating = False
+
+    def saveMap(self):
+        print(self.cases)
+        for i in range (0, len(self.cases)):
+            for c in range (0, len(self.cases[i])):
+                if self.cases[i][c][0] == "plateforme":
+                    if c == 0:
+                        self.newMap["plateforme"][len(self.newMap["plateforme"])] = [c*100, i*50, 100, 50]
+                    else:
+                        if self.cases[i][c-1][0] == "plateforme":
+                            self.newMap["plateforme"][len(self.newMap["plateforme"]) - 1][2] += 100
+                        else:
+                            self.newMap["plateforme"][len(self.newMap["plateforme"])] = [c*100, i*50, 100, 50]
+
+                elif self.cases[i][c][0] == "colorPlateforme":
+                    if c == 0:
+                        self.newMap["colorPlateforme"][len(self.newMap["colorPlateforme"])] = [c*100, i*50, 100, 50, self.cases[i][c][1]]
+                    else:
+                        if self.cases[i][c-1][0] == "colorPlateforme":
+                            self.newMap["colorPlateforme"][len(self.newMap["colorPlateforme"]) - 1][2] += 100
+                        else:
+                            self.newMap["colorPlateforme"][len(self.newMap["colorPlateforme"])] = [c*100, i*50, 100, 50, self.cases[i][c][1]]
+
+                elif self.cases[i][c][0] == "piege":
+                    if c == 0:
+                        self.newMap["piege"][len(self.newMap["piege"])] = [c*100, i*50 + 20, 100, 30]
+                    else:
+                        if self.cases[i][c-1][0] == "piege":
+                            self.newMap["piege"][len(self.newMap["piege"]) - 1][2] += 100
+                        else:
+                            self.newMap["piege"][len(self.newMap["piege"])] = [c*100, i*50 + 20, 100, 30]
+
+
+        file = open('../data/map.json', 'r+')
+        content = json.load(file)
+        content[self.current[0]][self.current[1]] = self.newMap
+        file.seek(0)
+        json.dump(content, file)
+        file.truncate()
+        file.close()
 
     def setCamera(self, x, y):
         pos = self.fond.get_rect()

@@ -30,37 +30,28 @@ class Player(Entity):
             self.image["gauche"][i] = pygame.transform.scale(self.image["gauche"][i], (100, 150))
 
         #rect pour les collisions
-        self.hitbox = []
-        self.hitbox.append(pygame.Rect(0, 0, 100, 148))
-        self.hitbox.append(pygame.Rect(18, 15, 82, 74))
-        self.hitbox.append(pygame.Rect(18, 89, 51, 59))
+        self.hitbox = pygame.Rect(0, 0, 80, 150)
 
-        #rendu pour les hitbox pour les voir
-        tete = pygame.Surface((82, 74))
-        tete.fill((255, 0, 0, 0.5))
-        corp = pygame.Surface((51, 59))
-        corp.fill((0, 255, 0, 0.5))
-        ##self.image.blit(tete, self.hitbox[0])
-        ##self.image.blit(corp, self.hitbox[1])
 
     def render(self):
         """rendu du joueur"""
+        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
         if self.vx != 0:
             if self.side == "droite":
-                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
+                pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
                 self.steep = (self.steep + 1) % 30
-                self.fenetre.blit(self.image["droite"][self.steep], (910, 400))
+                self.fenetre.blit(self.image["droite"][self.steep], (900, 400))
             elif self.side == "gauche":
-                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
+                pygame.draw.polygon(self.fenetre, self.color, [[928, 400], [930, 435], [957, 435]])
                 self.steep = (self.steep + 1) % 30
-                self.fenetre.blit(self.image["gauche"][self.steep], (910, 400))
+                self.fenetre.blit(self.image["gauche"][self.steep], (900, 400))
         else:
             if self.side == "droite":
-                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
-                self.fenetre.blit(self.image["droite"][0], (910, 400))
+                pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
+                self.fenetre.blit(self.image["droite"][0], (900, 400))
             elif self.side == "gauche":
-                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
-                self.fenetre.blit(self.image["gauche"][0], (910, 400))
+                pygame.draw.polygon(self.fenetre, self.color, [[928, 400], [930, 435], [957, 435]])
+                self.fenetre.blit(self.image["gauche"][0], (900, 400))
 
     def update(self, event, options):
         """update du joueur"""
@@ -155,8 +146,7 @@ class Player(Entity):
             self.y = self.level.h
             self.onground = True
 
-        self.hitbox[0].x = self.x
-        self.hitbox[0].y = self.y
+        self.updateHitbox()
 
         #collision
         self.collisionPiege()
