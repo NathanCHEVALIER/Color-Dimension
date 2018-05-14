@@ -55,7 +55,7 @@ class StartMenu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rect["play"].collidepoint(mouse):
                     self.music.stop()
-                    return "respawn"
+                    return "start"
                 elif self.rect["score"].collidepoint(mouse):
                     score = Scores(self.fenetre)
                     r = score.run()
