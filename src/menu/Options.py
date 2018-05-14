@@ -1,11 +1,16 @@
-﻿import pygame
+﻿import pygame             ##importation des différents modules
 import pygame.locals
 import time
 import json
 
 class Options():
+
     def __init__(self, fenetre):
+        """Constructeur de Menu"""
+        ##place et taille de la page, donné par fenetre
         self.fenetre = fenetre
+
+        ##chargement des images
         self.text12 = [pygame.font.Font('../font/impact.ttf', 40)]
         self.text345 = [pygame.font.Font('../font/impact.ttf', 32)]
         self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
@@ -17,7 +22,7 @@ class Options():
         self.image["option4"] = pygame.image.load('../img/menu/option4.png')
         self.image["option5"] = pygame.image.load('../img/menu/option5.png')
 
-
+        ##création et placements des images
         self.rect = {"title" : self.image["title"].get_rect().move(0, 0)}
         self.rect["close"] = self.image["close"].get_rect().move(1090, 390)
         self.rect["page"] = self.image["page"].get_rect().move(685, 440)
@@ -27,11 +32,9 @@ class Options():
         self.rect["option4"] = self.image["option4"].get_rect().move(730, 772.5)
         self.rect["option5"] = self.image["option5"].get_rect().move(730, 872.5)
 
-
-
-        self.last = False
-
     def run(self):
+        """fonction donnant la boucle qui actuallise la page 30 fois par secondee"""
+        ##boucle appellant render() 30fois par seconde
         r = 0
         while r == 0:
             r = self.update()
@@ -40,7 +43,9 @@ class Options():
         return r
 
     def render(self):
+        """fonction appellée par run() donnant la place des éléments à actualliser"""
         self.fenetre.fill((255, 0, 255, 1))
+        ##placement des images déclarées dans __init__()
         self.fenetre.blit(self.image["title"], (0, 0))
         self.fenetre.blit(self.image["close"], (1090, 390))
         self.fenetre.blit(self.image["page"], (685, 440))
@@ -50,6 +55,7 @@ class Options():
         self.fenetre.blit(self.image["option4"], (730, 772.5))
         self.fenetre.blit(self.image["option5"], (730, 872.5))
 
+        ##placement et contenu des textes
         text_option1 = self.text12[0].render('D', 1, (242,242,242))
         self.fenetre.blit(text_option1, (1122.5, 485))
         text_option2 = self.text12[0].render('Q', 1, (242,242,242))
@@ -61,10 +67,11 @@ class Options():
         text_option5 = self.text345[0].render("sp", 1, (242,242,242))
         self.fenetre.blit(text_option5, (1116, 885))
 
-
+        ##rafraichissement d'écran
         pygame.display.flip()
 
     def update(self):
+        """Gestion des évènements"""
         mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
