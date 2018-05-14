@@ -35,23 +35,23 @@ class Player(Entity):
 
     def render(self):
         """rendu du joueur"""
-        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910 + 10, 400, self.hitbox.w, self.hitbox.h))
+        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
         if self.vx != 0:
             if self.side == "droite":
-                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
+                pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
                 self.steep = (self.steep + 1) % 30
-                self.fenetre.blit(self.image["droite"][self.steep], (910, 400))
+                self.fenetre.blit(self.image["droite"][self.steep], (900, 400))
             elif self.side == "gauche":
-                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
+                pygame.draw.polygon(self.fenetre, self.color, [[928, 400], [930, 435], [957, 435]])
                 self.steep = (self.steep + 1) % 30
-                self.fenetre.blit(self.image["gauche"][self.steep], (910, 400))
+                self.fenetre.blit(self.image["gauche"][self.steep], (900, 400))
         else:
             if self.side == "droite":
-                pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
-                self.fenetre.blit(self.image["droite"][0], (910, 400))
+                pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
+                self.fenetre.blit(self.image["droite"][0], (900, 400))
             elif self.side == "gauche":
-                pygame.draw.polygon(self.fenetre, self.color, [[938, 400], [940, 435], [967, 435]])
-                self.fenetre.blit(self.image["gauche"][0], (910, 400))
+                pygame.draw.polygon(self.fenetre, self.color, [[928, 400], [930, 435], [957, 435]])
+                self.fenetre.blit(self.image["gauche"][0], (900, 400))
 
     def update(self, event, options):
         """update du joueur"""

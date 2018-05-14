@@ -2,7 +2,7 @@
 import pygame.locals
 import time
 
-class GameOver():
+class Credits():
 
     def __init__(self, fenetre):
         """Constructeur de Menu"""
@@ -10,14 +10,12 @@ class GameOver():
         self.fenetre = fenetre
 
         ##chargement des images
-        self.image = {"GOpage" : pygame.image.load('../img/menu/GOpage.png')}
-        self.image["GOmenu"] = pygame.image.load('../img/menu/GOmenu.png')
-        self.image["GOrejouer"] = pygame.image.load('../img/menu/GOrejouer.png')
+        self.image = {"title" : pygame.image.load('../img/menu/titlecredit.png')}
+        self.image["closecredit"] = pygame.image.load('../img/menu/closecredit.png')
 
         ##création et placements des images
-        self.rect = {"GOpage" : self.image["GOpage"].get_rect().move(685, 250)}
-        self.rect["GOmenu"] = self.image["GOmenu"].get_rect().move(705, 740)
-        self.rect["GOrejouer"] = self.image["GOrejouer"].get_rect().move(965, 740)
+        self.rect = {"title" : self.image["title"].get_rect().move(0, 0)}
+        self.rect["closecredit"] = self.image["closecredit"].get_rect().move(1200, 380)
 
     def run(self):
         """fonction donnant la boucle qui actuallise la page 30 fois par seconde"""
@@ -31,24 +29,24 @@ class GameOver():
 
     def render(self):
         """fonction appellée par run() donnant la place des éléments à actualliser"""
+        self.fenetre.fill((255, 0, 255, 1))
         ##placement des images déclarées dans __init__()
-        self.fenetre.blit(self.image["GOpage"], (685, 250))
-        self.fenetre.blit(self.image["GOmenu"], (705, 740))
-        self.fenetre.blit(self.image["GOrejouer"], (965,740))
+        self.fenetre.blit(self.image["title"], (0, 0))
+        self.fenetre.blit(self.image["closecredit"], (1200, 380))
 
         ##rafraichissement d'écran
         pygame.display.flip()
 
+
+
     def update(self):
-        """Gestion des évènements"""
+        """fonction regroupant des évènements présents sur la page"""
         mouse = pygame.mouse.get_pos()                              ##on prend la position de la souris avec la variable mouse
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "stop"
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if self.rect["GOrejouer"].collidepoint(mouse):  ##si clic gauche et souris sur rectangle GOrejouer,
-                        return "respawn"                            ##on lance le jeu
-                    elif self.rect["GOmenu"].collidepoint(mouse):   ##si clic gauche et sourus sur rectangle GOmenu,
-                        return "startmenu"                          ##on retourne au menu principal
+                    if self.rect["closecredit"].collidepoint(mouse):           ##si clic gauche et souris sur rectangle closecredit,
+                        return "startmenu"                                     ##on retourne au menu principal
         return 0
