@@ -73,7 +73,7 @@ class StartMenu():
                 if event.button == 1:
                     if self.rect["play"].collidepoint(mouse):           ##si clic gauche et souris sur rectangle play,
                         self.music.stop()                               ##on coupe la musique
-                        return "respawn"                                ##on lance le jeu
+                        return "start"                                ##on lance le jeu
                     elif self.rect["score"].collidepoint(mouse):        ##si clic gauche et souris sur rectangle score,
                         score = Scores(self.fenetre)
                         r = score.run()                                 ##on ouvre la page des scores
