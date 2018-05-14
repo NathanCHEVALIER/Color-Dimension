@@ -6,8 +6,9 @@ import json
 class Options():
     def __init__(self, fenetre):
         self.fenetre = fenetre
-        self.text12 = [pygame.font.Font('../font/impact.ttf', 40)]
-        self.text345 = [pygame.font.Font('../font/impact.ttf', 32)]
+        self.text12 = pygame.font.Font('../font/impact.ttf', 40)
+        self.text345 = pygame.font.Font('../font/impact.ttf', 32)
+        self.text6 = pygame.font.Font('../font/impact.ttf', 60)
         self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
         self.image["close"] = pygame.image.load('../img/menu/close.png')
         self.image["page"] = pygame.image.load('../img/menu/page.png')
@@ -50,15 +51,15 @@ class Options():
         self.fenetre.blit(self.image["option4"], (730, 772.5))
         self.fenetre.blit(self.image["option5"], (730, 872.5))
 
-        text_option1 = self.text12[0].render('D', 1, (242,242,242))
+        text_option1 = self.text12.render('D', 1, (242,242,242))
         self.fenetre.blit(text_option1, (1122.5, 485))
-        text_option2 = self.text12[0].render('Q', 1, (242,242,242))
+        text_option2 = self.text12.render('Q', 1, (242,242,242))
         self.fenetre.blit(text_option2, (1122.5, 585))
-        text_option3 = self.text345[0].render('mh', 1, (242,242,242))
+        text_option3 = self.text345.render('mh', 1, (242,242,242))
         self.fenetre.blit(text_option3, (1112, 687))
-        text_option4 = self.text345[0].render('mb', 1, (242,242,242))
+        text_option4 = self.text345.render('mb', 1, (242,242,242))
         self.fenetre.blit(text_option4, (1112, 785))
-        text_option5 = self.text345[0].render("sp", 1, (242,242,242))
+        text_option5 = self.text345.render("sp", 1, (242,242,242))
         self.fenetre.blit(text_option5, (1116, 885))
 
 
@@ -73,31 +74,37 @@ class Options():
                 if self.rect["close"].collidepoint(mouse):
                     return "close"
                 elif self.rect["option1"].collidepoint(mouse):
-                    setKey("gauche")
+                    self.setKey("gauche")
                 elif self.rect["option2"].collidepoint(mouse):
-                    setKey("droite")
+                    self.setKey("droite")
                 elif self.rect["option3"].collidepoint(mouse):
-                    setKey("z+")
+                    self.setKey("z+")
                 elif self.rect["option4"].collidepoint(mouse):
-                    setKey("z-")
+                    self.setKey("z-")
                 elif self.rect["option5"].collidepoint(mouse):
-                    setKey("sauter")
+                    self.setKey("sauter")
         return 0
-def getInput():
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                return event.type, event.button
-            elif event.type == pygame.KEYDOWN:
-                return event.type, event.key
-        time.sleep(1/30)
+    def getInput(self):
+        print("plapl")
+        #(171, 113, 80)(174, 124, 111
+        pygame.draw.rect(self.fenetre, (174, 148, 133, 1), pygame.Rect(650, 450, 620, 200))
+        text = self.text6.render('Appuie sur une touche', 1, (242,242,242))
+        self.fenetre.blit(text, (700, 500))
+        pygame.display.flip()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    return event.type, event.button
+                elif event.type == pygame.KEYDOWN:
+                    return event.type, event.key
+            time.sleep(1/30)
 
-def setKey(action):
-    t, key = getInput()
-    data = load()
-    print(data)
-    data["input"][action] = [t, key]
-    save(data)
+
+    def setKey(self, action):
+        t, key = self.getInput()
+        data = load()
+        data["input"][action] = [t, key]
+        save(data)
 
 
 def load():
