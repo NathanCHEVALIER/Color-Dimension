@@ -14,7 +14,7 @@ class Scores():
         self.text = [pygame.font.Font('../font/impact.ttf', 54)]
 
         ##chargement des images
-        self.image = {"title" : pygame.image.load('../img/menu/title1.png')}
+        self.image = {"title" : pygame.image.load('../img/menu/title2.png')}
         self.image["close"] = pygame.image.load('../img/menu/close.png')
         self.image["page"] = pygame.image.load('../img/menu/tabscore.png')
         self.image["scoretag"] = pygame.image.load('../img/menu/scoretag.png')

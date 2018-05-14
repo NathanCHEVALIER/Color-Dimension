@@ -4,6 +4,7 @@ import time
 from menu.Scores import *
 from menu.Options import *
 from menu.Mur import *
+from menu.Credits import *
 from game.map.Editor import *
 
 class StartMenu():
@@ -12,9 +13,6 @@ class StartMenu():
         """Constructeur de Menu"""
         ##place et taille de la page, donné par fenetre
         self.fenetre = fenetre
-
-        ##déclaration d'un style de texte, nommé text
-        self.text = [pygame.font.Font('../font/impact.ttf', 32)]
 
         ##chargement des fichiers sonores
         self.music = pygame.mixer.Sound("../music/musique.wav")
@@ -25,7 +23,7 @@ class StartMenu():
         self.image["score"] = pygame.image.load('../img/menu/score.png')
         self.image["option"] = pygame.image.load('../img/menu/option.png')
         self.image["edit"] = pygame.image.load('../img/menu/edit.png')
-        self.image["cerdit"] = pygame.image.load('../img/menu/credit.png')
+        self.image["credit"] = pygame.image.load('../img/menu/credit.png')
 
         ##création et placements des images
         self.rect = {"title" : self.image["title"].get_rect().move(0, 0)}
@@ -33,8 +31,8 @@ class StartMenu():
         self.rect["score"] = self.image["score"].get_rect().move(805, 587)
         self.rect["option"] = self.image["option"].get_rect().move(805, 729)
         self.rect["edit"] = self.image["edit"].get_rect().move(805, 871)
-        self.rect["credit"] = self.image["edit"].get_rect().move(1019, 1750)
         self.rect["mur"] = pygame.Rect(1900, 0, 20, 20)
+        self.rect["credit"] = self.image["edit"].get_rect().move(1740, 960)
 
     def run(self):
         """fonction donnant la boucle qui actuallise la page 30 fois par seconde"""
@@ -58,14 +56,7 @@ class StartMenu():
         self.fenetre.blit(self.image["score"], (805, 587))
         self.fenetre.blit(self.image["option"], (805, 729))
         self.fenetre.blit(self.image["edit"], (805, 871))
-
-        ##placement et contenu des textes
-        text_nom1 = self.text[0].render('Armand PICARD', 1, (242,242,242))
-        self.fenetre.blit(text_nom1, (40, 125))
-        text_nom2 = self.text[0].render('Nathan CHEVALIER', 1, (242,242,242))
-        self.fenetre.blit(text_nom2, (40, 180))
-        text_nom3 = self.text[0].render('Jules ECARD', 1, (242,242,242))
-        self.fenetre.blit(text_nom3, (40, 235))
+        self.fenetre.blit(self.image["credit"], (1740, 960))
 
         ##rafraichissement d'écran
         pygame.display.flip()
@@ -103,5 +94,12 @@ class StartMenu():
                     elif self.rect["mur"].collidepoint(mouse):          ##Easter egg ;-)
                         mur = Mur(self.fenetre)
                         mur.run()
+                    elif self.rect["credit"].collidepoint(mouse):       ##si clic gauche et souris sur rectangle option,
+                        credit = Credits(self.fenetre)
+                        r = credit.run()                                ##on ouvre la page des options
+                        if r == "close":
+                            return 0
+                        else:
+                            return r
         return 0
 

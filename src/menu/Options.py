@@ -13,7 +13,7 @@ class Options():
         ##chargement des images
         self.text12 = [pygame.font.Font('../font/impact.ttf', 40)]
         self.text345 = [pygame.font.Font('../font/impact.ttf', 32)]
-        self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
+        self.image = {"title" : pygame.image.load('../img/menu/title2.png')}
         self.image["close"] = pygame.image.load('../img/menu/close.png')
         self.image["page"] = pygame.image.load('../img/menu/page.png')
         self.image["option1"] = pygame.image.load('../img/menu/option1.png')
