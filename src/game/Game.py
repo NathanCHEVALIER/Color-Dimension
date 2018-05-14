@@ -1,10 +1,10 @@
-﻿from game.entities.Player import *
-from game.map.Map import *
-from game.map.Editor import *
-from game.settings import *
-from menu.Pause import *
-from menu.GameOver import *
-import menu.Options
+﻿from . import entities
+from .entities.Player import *
+from .map.Map import *
+from .map.Editor import *
+from ..menu.Options import *
+from . import map
+from .settings import *
 import time
 
 
