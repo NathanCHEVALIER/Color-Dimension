@@ -20,18 +20,7 @@ class Monster(Entity):
         self.image["gauche"] = pygame.transform.scale(self.image["gauche"], (65, 100))
 
         #rect pour les collisions
-        self.hitbox = []
-        self.hitbox.append(pygame.Rect(0, 0, 65, 100))
-        self.hitbox.append(pygame.Rect(18, 15, 82, 74))
-        self.hitbox.append(pygame.Rect(18, 89, 51, 59))
-
-        #rendu pour les hitbox pour les voir
-        tete = pygame.Surface((82, 74))
-        tete.fill((255, 0, 0, 0.5))
-        corp = pygame.Surface((51, 59))
-        corp.fill((0, 255, 0, 0.5))
-        ##self.image.blit(tete, self.hitbox[0])
-        ##self.image.blit(corp, self.hitbox[1])
+        self.hitbox = pygame.Rect(0, 0, 65, 100)
 
     def render(self, x, y):
         if self.vx >= 0:
@@ -69,8 +58,8 @@ class Monster(Entity):
             self.y = self.level.h
             self.onground = True
 
-        self.hitbox[0].x = self.x
-        self.hitbox[0].y = self.y
+        self.hitbox.x = self.x
+        self.hitbox.y = self.y
 
         self.collisionPiege()
         self.collisionPlatform()

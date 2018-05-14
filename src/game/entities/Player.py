@@ -31,21 +31,12 @@ class Player(Entity):
             self.image["gauche"][i] = pygame.transform.scale(self.image["gauche"][i], (100, 150))
 
         #rect pour les collisions
-        self.hitbox = []
-        self.hitbox.append(pygame.Rect(0, 0, 100, 148))
-        self.hitbox.append(pygame.Rect(18, 15, 82, 74))
-        self.hitbox.append(pygame.Rect(18, 89, 51, 59))
+        self.hitbox = pygame.Rect(0, 0, 80, 150)
 
-        #rendu pour les hitbox pour les voir
-        tete = pygame.Surface((82, 74))
-        tete.fill((255, 0, 0, 0.5))
-        corp = pygame.Surface((51, 59))
-        corp.fill((0, 255, 0, 0.5))
-        ##self.image.blit(tete, self.hitbox[0])
-        ##self.image.blit(corp, self.hitbox[1])
 
     def render(self):
         """rendu du joueur"""
+        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910 + 10, 400, self.hitbox.w, self.hitbox.h))
         if self.vx != 0:
             if self.side == "droite":
                 pygame.draw.polygon(self.fenetre, self.color, [[978, 400], [948, 435], [975, 435]])
@@ -99,7 +90,6 @@ class Player(Entity):
                 elif self.z > 1530:
                     self.z = 1530
 
-
         if keys[K_SPACE]:
             if self.onground:
                 self.son["saut"].play()
@@ -119,8 +109,7 @@ class Player(Entity):
             self.y = self.level.h
             self.onground = True
 
-        self.hitbox[0].x = self.x
-        self.hitbox[0].y = self.y
+        self.updateHitbox()
 
         self.collisionPiege()
         self.collisionPlatform()

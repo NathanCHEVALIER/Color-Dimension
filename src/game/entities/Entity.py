@@ -24,17 +24,21 @@
     def collisionPiege(self):
         """collision piège"""
         for rect in self.map.rects["piege"]:
-            if(self.hitbox[0].colliderect(rect)):
+            if(self.hitbox.colliderect(rect)):
                 self.alive = False
 
+    def updateHitbox(self):
+        """reposition de la hitbox"""
+        self.hitbox.x = self.x + 10
+        self.hitbox.y = self.y
 
     def collisionPlatform(self):
         """collision plateform normal"""
         for rect in self.map.rects["plateforme"]:
-            if self.hitbox[0].colliderect(rect):
+            if self.hitbox.colliderect(rect):
                 #haut
-                if self.lasty + self.hitbox[0].h <= rect.y:
-                    self.y = rect.y - self.hitbox[0].h
+                if self.lasty + self.hitbox.h <= rect.y:
+                    self.y = rect.y - self.hitbox.h
                     self.vy = 0
                     self.onground = True
                 #bas
@@ -44,12 +48,11 @@
                 else:
                     if self.lastx >= rect.x + (rect.w / 2):
                         self.x = rect.x + rect.w
-                    elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
-                        self.x = rect.x - self.hitbox[0].w
+                    elif self.lastx + self.hitbox.w <= rect.x + (rect.w / 2):
+                        self.x = rect.x - self.hitbox.w
                     else:
                         print("La c'est la merde")
-                self.hitbox[0].x = self.x
-                self.hitbox[0].y = self.y
+                self.updateHitbox()
 
     def collisionPlatformColor(self):
         """collision plateform de couleur"""
@@ -57,10 +60,10 @@
             rect = colorPlat[0]
             z = colorPlat[1]
             if self.z <= z + 200 and self.z >= z - 200:
-                if self.hitbox[0].colliderect(rect):
+                if self.hitbox.colliderect(rect):
                     #haut
-                    if self.lasty + self.hitbox[0].h <= rect.y:
-                        self.y = rect.y - self.hitbox[0].h
+                    if self.lasty + self.hitbox.h <= rect.y:
+                        self.y = rect.y - self.hitbox.h
                         self.vy = 0
                         self.onground = True
                     #bas
@@ -70,14 +73,14 @@
                     else:
                         if self.lastx >= rect.x + (rect.w / 2):
                             self.x = rect.x + rect.w
-                        elif self.lastx + self.hitbox[0].w <= rect.x + (rect.w / 2):
-                            self.x = rect.x - self.hitbox[0].w
+                        elif self.lastx + self.hitbox.w <= rect.x + (rect.w / 2):
+                            self.x = rect.x - self.hitbox.w
                         else:
                             print("La c'est la merde");
+                    self.updateHitbox()
 
-                    self.hitbox[0].x = self.x
-                    self.hitbox[0].y = self.y
     def setMap(self, map):
+        """defini la map de l'entité"""
         self.map = map
         self.level = self.map.posZone
 
