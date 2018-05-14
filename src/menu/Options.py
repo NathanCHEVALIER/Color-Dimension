@@ -1,6 +1,7 @@
 ﻿import pygame
 import pygame.locals
 import time
+import json
 
 class Options():
     def __init__(self, fenetre):
@@ -72,13 +73,42 @@ class Options():
                 if self.rect["close"].collidepoint(mouse):
                     return "close"
                 elif self.rect["option1"].collidepoint(mouse):
-                    print("#option1")
+                    setKey("gauche")
                 elif self.rect["option2"].collidepoint(mouse):
-                    print("#option2")
+                    setKey("droite")
                 elif self.rect["option3"].collidepoint(mouse):
-                    print("#option3")
+                    setKey("z+")
                 elif self.rect["option4"].collidepoint(mouse):
-                    print("#option4")
+                    setKey("z-")
                 elif self.rect["option5"].collidepoint(mouse):
-                    print("#option5")
+                    setKey("sauter")
         return 0
+def getInput():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                return event.type, event.button
+            elif event.type == pygame.KEYDOWN:
+                return event.type, event.key
+        time.sleep(1/30)
+
+def setKey(action):
+    t, key = getInput()
+    data = load()
+    print(data)
+    data["input"][action] = [t, key]
+    save(data)
+
+
+def load():
+    file = open('../data/options.json')
+    content = json.load(file)
+    file.close
+    return content
+
+def save(content):
+    file = open('../data/options.json', 'r+')
+    file.seek(0)
+    json.dump(content, file)
+    file.truncate()
+    file.close()
