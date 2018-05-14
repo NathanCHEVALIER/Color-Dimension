@@ -6,11 +6,11 @@ from menu.StartMenu import *
 class Main():
     pygame.init()
     fenetre = pygame.display.set_mode((1920, 1080))## """, pygame.FULLSCREEN | pygame.DOUBLEBUF""" )
-    game = Game(fenetre, "tower")
 
     r = "startmenu"
     while r != "stop":
         if r == "start":
+            game = Game(fenetre, "tower")
             r = game.run()
         elif r == "startmenu":
             startmenu = StartMenu(fenetre)
