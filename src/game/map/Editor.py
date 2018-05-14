@@ -2,6 +2,7 @@
 import pygame
 import time
 import pygame.locals
+from game.tools import *
 
 class Editor():
     def __init__(self, fenetre):
@@ -34,6 +35,8 @@ class Editor():
         self.image["edit"] = self.image["sprite"].subsurface(200, 0, 100, 40)
         self.image["add"] = self.image["sprite"].subsurface(200, 50, 100, 40)
         self.image["empty"] = self.image["sprite"].subsurface(100, 50, 100, 50)
+        self.image["paletteColor"] = self.image["sprite"].subsurface(200, 100, 200, 50)
+        self.image["cursor"] = self.image["sprite"].subsurface(200, 150, 10, 50)
 
         self.rects = {"plus": self.image["plus"].get_rect(), "edit": self.image["edit"].get_rect().move((850, 700)),
         "menuMap": self.cadre[0].get_rect().move((500, 250)), "menuZone": self.cadre[0].get_rect().move((1120, 250)),
@@ -44,7 +47,8 @@ class Editor():
         "inputWidth": self.cadre[2].get_rect().move((780, 600)), "inputHeight": self.cadre[2].get_rect().move((970, 600)),
         "listUp": self.image["up"].get_rect().move((1080, 460)), "listDown": self.image["down"].get_rect().move((1080, 500)),
         "btnDown": self.image["down"].get_rect().move((1750, 975)), "btnUp": self.image["up"].get_rect().move((1750, 870)),
-        "btnRight": self.image["right"].get_rect().move((1815, 910)), "btnLeft": self.image["left"].get_rect().move((1710, 910))}
+        "btnRight": self.image["right"].get_rect().move((1815, 910)), "btnLeft": self.image["left"].get_rect().move((1710, 910)),
+        "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000))}
 
         self.last = False
         self.home = True
@@ -58,7 +62,7 @@ class Editor():
         self.inputSelected = 0
         self.listSelected = 0
         self.camPos = {"x": 5, "y": 9}
-        self.current = {"element": "empty"}
+        self.current = {"element": ["empty", False]}
         self.cases = []
 
     def loop(self):
@@ -101,22 +105,35 @@ class Editor():
         self.rects["colorPlateforme"] = self.image["colorPlateforme"].get_rect().move((50, 230))
         self.rects["empty"] = self.image["empty"].get_rect().move((50, 70))
 
-        self.cases = [["empty"] * int(self.dataMap[self.current[0]][self.current[1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current[0]][self.current[1]]["limit"][3] / 50))]
+        self.cases = [[["empty", False]] * int(self.dataMap[self.current[0]][self.current[1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current[0]][self.current[1]]["limit"][3] / 50))]
+
+        for i in self.dataMap[self.current[0]][self.current[1]]["plateforme"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["plateforme"][i][0]/100) + c] = ["plateforme", False]
+
+        for i in self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][0]/100) + c] = ["colorPlateforme", self.dataMap[self.current[0]][self.current[1]]["colorPlateforme"][i][4]]
+
+        for i in self.dataMap[self.current[0]][self.current[1]]["piege"]:
+            for c in range(0, int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][2] / 100)):
+                self.cases[int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][1]/ 50)][int(self.dataMap[self.current[0]][self.current[1]]["piege"][i][0]/100) + c] = ["piege", False]
 
     def renderEditor(self):
         self.fenetre.blit(self.fond, (0,0))
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
         self.image["background"].blit(self.image["zone"], (1000, 1000))
 
-        self.image["zone"].fill((0, 0, 255, 1))
+        self.image["zone"].fill((210, 210,210))
         for i in range(0, len(self.cases)):
             for c in range(0, len(self.cases[i])):
-                self.image["zone"].blit(self.image[self.cases[i][c]], (c * 100, i*50))
-
+                if self.cases[i][c][0] == "colorPlateforme":
+                    pygame.draw.rect(self.image["zone"], getColor(self.cases[i][c][1]), (c * 100, i*50, 100, 50))
+                self.image["zone"].blit(self.image[self.cases[i][c][0]], (c * 100, i*50))
 
         self.fenetre.blit(self.image["background"], (self.camPos["x"] * -100, self.camPos["y"] * -100))
 
-        pygame.draw.circle(self.fenetre, (130,130,130), (1775, 935), 75)
+        pygame.draw.circle(self.fenetre, (100,100,100, 0.3), (1775, 935), 75)
         self.fenetre.blit(self.image["up"], (1750, 870))
         self.fenetre.blit(self.image["down"], (1750, 975))
         self.fenetre.blit(self.image["left"], (1710, 910))
@@ -126,6 +143,8 @@ class Editor():
         self.fenetre.blit(self.image["plateforme"], (50, 150))
         self.fenetre.blit(self.image["colorPlateforme"], (50, 230))
         self.fenetre.blit(self.image["piege"], (50, 290))
+        self.fenetre.blit(self.image["paletteColor"], (200, 1000))
+        self.fenetre.blit(self.image["cursor"], (205 + (int(self.current["element"][1]) / 10), 1000 ))
 
         pygame.display.flip()
 
@@ -145,16 +164,17 @@ class Editor():
                 elif self.rects["btnLeft"].collidepoint(mouse) and self.camPos["x"] >= 0:
                     self.camPos["x"] -= 1
                 elif self.rects["plateforme"].collidepoint(mouse):
-                    self.current["element"] = "plateforme"
+                    self.current["element"][0] = "plateforme"
                 elif self.rects["colorPlateforme"].collidepoint(mouse):
-                    self.current["element"] = "colorPlateforme"
+                    self.current["element"][0] = "colorPlateforme"
                 elif self.rects["piege"].collidepoint(mouse):
-                    self.current["element"] = "piege"
+                    self.current["element"][0] = "piege"
+                elif self.rects["paletteColor"].collidepoint(mouse):
+                    mousePos = pygame.mouse.get_pos()
+                    self.current["element"][1] = (mousePos[0] - 210)*10
                 else:
                     mousePos = pygame.mouse.get_pos()
                     self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = self.current["element"]
-                    print(self.current["element"])
-                    print(self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)])
 
         return True
 

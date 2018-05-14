@@ -4,7 +4,9 @@ from game.map.Editor import *
 from game.settings import *
 from menu.Pause import *
 from menu.GameOver import *
+import menu.Options
 import time
+
 
 class Game:
     def __init__(self, fenetre, mapId):
@@ -29,6 +31,8 @@ class Game:
         self.running = True
 
     def run(self):
+        self.options = menu.Options.load()
+
         self.music.play()
         last = 0
         while self.running:
@@ -102,7 +106,7 @@ class Game:
         self.map.update()
         for e in self.enemies:
             e.update()
-        self.player.update(self.event)
+        self.player.update(self.event, self.options)
 
     def respawn(self):
         """remet le joeur à sa position de depart"""

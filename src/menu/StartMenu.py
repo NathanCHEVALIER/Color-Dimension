@@ -72,7 +72,7 @@ class StartMenu():
                         return r
                 elif self.rect["edit"].collidepoint(mouse):
                     editeur = Editor(self.fenetre)
-                    self.music.stop()
+                    ##self.music.stop()
                     editeur.loop()
                 elif self.rect["mur"].collidepoint(mouse):
                     mur = Mur(self.fenetre)
