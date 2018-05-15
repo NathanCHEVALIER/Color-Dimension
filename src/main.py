@@ -1,4 +1,5 @@
 ﻿import pygame
+import game
 from game.Game import *
 from pygame.locals import *
 from menu.StartMenu import *
