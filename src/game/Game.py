@@ -1,10 +1,14 @@
-﻿from game.entities.Player import *
-from game.map.Map import *
-from game.map.Editor import *
-from game.settings import *
-from menu.Pause import *
+﻿from . import entities
+from .entities.Player import *
+from .map.Map import *
+from .map.Editor import *
+import menu
+from menu.Options import *
 from menu.GameOver import *
-import menu.Options
+from menu.Pause import *
+
+from . import map
+from .settings import *
 import time
 
 
@@ -31,7 +35,7 @@ class Game:
         self.running = True
 
     def run(self):
-        self.options = menu.Options.load()
+        self.options = load()
 
         self.music.play()
         last = 0
