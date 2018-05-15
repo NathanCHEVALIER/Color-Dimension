@@ -10,7 +10,7 @@ class Editor():
         self.fenetre = fenetre
         self.fond = pygame.Surface((1920, 1080))
         self.fond.fill((50,50,50))
-        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((170, 3)), pygame.Surface((200, 1080))]
+        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((10, 10)), pygame.Surface((200, 1080))]
         self.cadre[0].fill((80,80,80))
         self.cadre[1].fill((70,70,70))
         self.cadre[2].fill((70,70,70))
@@ -35,7 +35,7 @@ class Editor():
         self.image["edit"] = self.image["sprite"].subsurface(200, 0, 100, 40)
         self.image["add"] = self.image["sprite"].subsurface(200, 50, 100, 40)
         self.image["empty"] = self.image["sprite"].subsurface(100, 50, 100, 50)
-        self.image["paletteColor"] = self.image["sprite"].subsurface(200, 100, 200, 50)
+        self.image["paletteColor"] = self.image["sprite"].subsurface(200, 100, 175, 50)
         self.image["cursor"] = self.image["sprite"].subsurface(200, 150, 10, 50)
 
         self.rects = {"plus": self.image["plus"].get_rect(), "edit": self.image["edit"].get_rect().move((850, 700)),
@@ -177,14 +177,21 @@ class Editor():
                     self.current["element"][0] = "empty"
                 elif self.rects["paletteColor"].collidepoint(mouse):
                     mousePos = pygame.mouse.get_pos()
-                    self.current["element"][1] = (mousePos[0] - 210)*10
+                    if mousePos[0] <= 363:
+                        color = (mousePos[0] - 210)*10
+                    else:
+                        color = 1530
+                    self.current["element"][1] = color
                 elif self.rects["saveEdit"].collidepoint(mouse):
                     self.saveMap()
                     self.editing = False
                     return False
                 else:
                     mousePos = pygame.mouse.get_pos()
-                    self.cases[int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)][int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)] = [self.current["element"][0], self.current["element"][1]]
+                    y = int(((self.camPos["y"] * 100) + mousePos[1] - 1000) / 50)
+                    x = int(((self.camPos["x"] * 100) + mousePos[0] - 1000) / 100)
+                    if x >= 0 and x < len(self.cases[0]) and y >= 0 and y < len(self.cases):
+                        self.cases[y][x] = [self.current["element"][0], self.current["element"][1]]
 
         return True
 
@@ -195,14 +202,14 @@ class Editor():
         self.fenetre.blit(self.image["down"], (1080, 500))
         self.fenetre.blit(self.image["edit"], (850, 700))
         self.fenetre.blit(self.image["add"], (970, 700))
-        self.fenetre.blit(self.cadre[3], (780, 300 + (35 * self.listSelected)))
+        self.fenetre.blit(self.cadre[3], (770, 290 + (35 * self.listSelected)))
         i = 0
         c = 0
         for i in self.list:
             if i[1] == "map":
                 self.fenetre.blit(self.ecriture[1].render(i[0], 1, (255,255,255)), (790, (35 * c) + 270 ))
             elif i[1] == "zone":
-                self.fenetre.blit(self.ecriture[2].render(i[0], 1, (255,255,255)), (800, (35 * c) + 280 ))
+                self.fenetre.blit(self.ecriture[2].render(i[0], 1, (200,200,200)), (810, (35 * c) + 280 ))
             c += 1
 
         pygame.display.flip()
@@ -337,7 +344,6 @@ class Editor():
         self.creating = False
 
     def saveMap(self):
-        print(self.cases)
         for i in range (0, len(self.cases)):
             for c in range (0, len(self.cases[i])):
                 if self.cases[i][c][0] == "plateforme":
