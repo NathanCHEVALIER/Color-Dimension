@@ -18,7 +18,7 @@ class Player(Entity):
         self.side = "droite"
         self.steep = 0
 
-        #son
+        #met en memoir le son pour le saut
         self.son = {"saut" : pygame.mixer.Sound("../music/saut.wav")}
 
         #image pour le rendu
@@ -35,7 +35,9 @@ class Player(Entity):
 
     def render(self):
         """rendu du joueur"""
-        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
+        #affiche le hitbox
+        ##pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
+
         if self.vx != 0:
             if self.side == "droite":
                 pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
@@ -106,8 +108,6 @@ class Player(Entity):
                 self.z = 0
             elif self.z > 1530:
                 self.z = 1530
-
-
 ##            if e.type == pygame.MOUSEBUTTONDOWN:
 ##                if e.button == 4:
 ##                    self.z -= 102
@@ -149,7 +149,7 @@ class Player(Entity):
         self.updateHitbox()
 
         #collision
-        self.collisionPiege()
+
         self.collisionPlatform()
         self.collisionPlatformColor()
-
+        self.collisionPiege()

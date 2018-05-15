@@ -38,6 +38,8 @@
             if self.hitbox.colliderect(rect):
                 #haut
                 if self.lasty + self.hitbox.h <= rect.y:
+                    if self.vy > 110:
+                        self.alive = False
                     self.y = rect.y - self.hitbox.h
                     self.vy = 0
                     self.onground = True
@@ -63,6 +65,8 @@
                 if self.hitbox.colliderect(rect):
                     #haut
                     if self.lasty + self.hitbox.h <= rect.y:
+                        if self.vy > 110:
+                            self.alive = False
                         self.y = rect.y - self.hitbox.h
                         self.vy = 0
                         self.onground = True

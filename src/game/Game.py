@@ -110,6 +110,9 @@ class Game:
         self.map.update()
         for e in self.enemies:
             e.update()
+            if e.hitbox.colliderect(self.player.hitbox):
+                self.player.alive = False
+
         self.player.update(self.event, self.options)
 
     def respawn(self):
