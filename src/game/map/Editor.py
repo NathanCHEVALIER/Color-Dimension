@@ -10,12 +10,13 @@ class Editor():
         self.fenetre = fenetre
         self.fond = pygame.Surface((1920, 1080))
         self.fond.fill((50,50,50))
-        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((10, 10)), pygame.Surface((200, 1080))]
+        self.cadre = [pygame.Surface((400, 500)), pygame.Surface((360, 50)), pygame.Surface((170, 50)), pygame.Surface((10, 10)), pygame.Surface((200, 1080)), pygame.Surface((100, 50)), pygame.Surface((380, 380))]
         self.cadre[0].fill((80,80,80))
         self.cadre[1].fill((70,70,70))
         self.cadre[2].fill((70,70,70))
         self.cadre[3].fill((255,255,255))
         self.cadre[4].fill((50,50,50))
+        self.cadre[6].fill((100,100,100))
 
         self.image = {"sprite": 0}
         self.image["sprite"] =  pygame.image.load('../img/editeur.png')
@@ -48,7 +49,8 @@ class Editor():
         "listUp": self.image["up"].get_rect().move((1080, 460)), "listDown": self.image["down"].get_rect().move((1080, 500)),
         "btnDown": self.image["down"].get_rect().move((1750, 975)), "btnUp": self.image["up"].get_rect().move((1750, 870)),
         "btnRight": self.image["right"].get_rect().move((1815, 910)), "btnLeft": self.image["left"].get_rect().move((1710, 910)),
-        "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000)), "saveEdit": self.image["save"].get_rect().move((50, 950))}
+        "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000)), "saveEdit": self.image["save"].get_rect().move((50, 950)),
+        "addZone": self.image["add"].get_rect().move((970, 700))}
 
         self.last = False
         self.home = True
@@ -142,6 +144,8 @@ class Editor():
         self.fenetre.blit(self.image["left"], (1710, 910))
         self.fenetre.blit(self.image["right"], (1815, 910))
         self.fenetre.blit(self.cadre[4], (0,0))
+        self.cadre[5].fill(getColor(self.current["element"][1]))
+        self.fenetre.blit(self.cadre[5], (50,230))
         self.fenetre.blit(self.image["empty"], (50, 70))
         self.fenetre.blit(self.image["plateforme"], (50, 150))
         self.fenetre.blit(self.image["colorPlateforme"], (50, 230))
@@ -158,6 +162,15 @@ class Editor():
             if event.type == pygame.QUIT:
                 self.editing = False
                 return False
+            if event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_UP and self.camPos["y"] >= 0:
+                    self.camPos["y"] -= 1
+                if event.key == pygame.K_DOWN:
+                    self.camPos["y"] += 1
+                if event.key == pygame.K_RIGHT and self.camPos["y"]  <= self.dataMap[self.current[0]]["limit"][3]:
+                    self.camPos["x"] += 1
+                if event.key == pygame.K_LEFT and self.camPos["x"] >= 0:
+                    self.camPos["x"] -= 1
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rects["btnDown"].collidepoint(mouse):
                     self.camPos["y"] += 1
@@ -198,6 +211,7 @@ class Editor():
     def renderSelector(self):
         self.fenetre.blit(self.fond, (0,0))
         self.fenetre.blit(self.cadre[0], (760, 250))
+        self.fenetre.blit(self.cadre[6], (770, 260))
         self.fenetre.blit(self.image["up"], (1080, 460))
         self.fenetre.blit(self.image["down"], (1080, 500))
         self.fenetre.blit(self.image["edit"], (850, 700))
@@ -233,6 +247,8 @@ class Editor():
                         self.selecting = False
                         self.editing = True
                         return False
+                if self.rects["addZone"].collidepoint(mouse):
+                    pass
 
         return True
 
