@@ -91,3 +91,7 @@ class Map:
     def getMusic(self):
         music = pygame.mixer.Sound(self.music)
         return music
+
+    def getMaps(self):
+        liste = ["towers", "moutains", "babossland", "dusty", "chivres", "closmaire"]
+        return liste
