@@ -1,13 +1,12 @@
 ﻿import sys
+import os
 from cx_Freeze import setup, Executable
 
-#build_exe_options = {"packages" : [os], "excludes" :["tkinter"]}
+#buildOptions = dict(include_files = ["../music/"])
+#options = dict(build_exe = buildOptions)
 
-options = {
-    'build_exe' : {
-        'includes' : ["Game", "entities/Entities"],
-        'path' : sys.path + ['game']
-    }
+options = {"include_files" : ["../music/", "../font/", "../data/", "../img/"]
+
 }
 
 setup(
@@ -15,5 +14,5 @@ setup(
     version = "0.1",
     description = "Jeux",
     executables = [Executable("main.py")],
-    #options=options
+    options={"build_exe":options}
 )

@@ -4,7 +4,6 @@ import time
 import json
 
 class Options():
-
     def __init__(self, fenetre):
         """Constructeur de Menu"""
         ##place et taille de la page, donné par fenetre
