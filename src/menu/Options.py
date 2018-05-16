@@ -32,7 +32,7 @@ class Options():
 
     def run(self):
         """fonction donnant la boucle qui actuallise la page 30 fois par secondee"""
-        ##boucle appellant render() 30fois par seconde
+        ##boucle appellant render() 30 fois par seconde
         r = 0
         while r == 0:
             r = self.update()
@@ -88,8 +88,7 @@ class Options():
                     self.setKey("sauter")
         return 0
     def getInput(self):
-        print("plapl")
-        #(171, 113, 80)(174, 124, 111
+        """attend que le joueur appuit sur un touche ou un boutton de la souris et renvoie le boutton appuyer"""
         pygame.draw.rect(self.fenetre, (174, 148, 133, 1), pygame.Rect(650, 450, 620, 200))
         text = self.text6.render('Appuie sur une touche', 1, (242,242,242))
         self.fenetre.blit(text, (700, 500))
@@ -104,6 +103,7 @@ class Options():
 
 
     def setKey(self, action):
+        """change la touche pour l'action indiquer en paramètre"""
         t, key = self.getInput()
         data = load()
         data["input"][action] = [t, key]
@@ -111,12 +111,14 @@ class Options():
 
 
 def load():
+    """retourne le dictionnaire contenant les options à partir du fichier json"""
     file = open('../data/options.json')
     content = json.load(file)
     file.close
     return content
 
 def save(content):
+    """sauvegarde le dictionnaire contenant les options dans le fichier json"""
     file = open('../data/options.json', 'r+')
     file.seek(0)
     json.dump(content, file)

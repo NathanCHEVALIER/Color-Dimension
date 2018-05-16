@@ -34,7 +34,9 @@ class Game:
         self.pause = False
         self.running = True
 
+
     def run(self):
+        """fonction qui lance le jeux et renvoie des indication sur ce qu'on doit faire après"""
         self.options = load()
 
         self.music.play()
@@ -89,6 +91,8 @@ class Game:
         self.pause = False
 
     def getEvent(self):
+        """Recupère les evènement de pygame puisstock le tableau des evenement dans l'atribut event
+        , traite l'evènement de quand on apuis sur la croix"""
         self.event = pygame.event.get()
         for e in self.event:
             if e.type == pygame.QUIT:
@@ -120,4 +124,6 @@ class Game:
         self.player.x = 2000
         self.player.y = 1700
         self.player.z = 0
+        self.player.vx = 0
+        self.player.vy = 0
         self.player.alive = True
