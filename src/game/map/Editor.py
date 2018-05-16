@@ -3,6 +3,7 @@ import pygame
 import time
 import pygame.locals
 from game.tools import *
+from game.settings import *
 
 class Editor():
     def __init__(self, fenetre):
@@ -163,6 +164,8 @@ class Editor():
                 self.editing = False
                 return False
             if event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
                 if event.key == pygame.K_UP and self.camPos["y"] >= 0:
                     self.camPos["y"] -= 1
                 if event.key == pygame.K_DOWN:
@@ -234,6 +237,9 @@ class Editor():
             if event.type == pygame.QUIT:
                 self.selecting = False
                 return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rects["listUp"].collidepoint(mouse) and self.listSelected > 0:
                     self.listSelected = self.listSelected - 1
@@ -312,6 +318,8 @@ class Editor():
                     self.createMap()
                     return False
             if event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
                 lettre = event.dict['unicode']
                 if ('a' <= lettre <= 'z' or 'A' <= lettre <= 'Z') and self.inputSelected == 1:
                     self.map["title"] = self.map["title"] + lettre
@@ -340,6 +348,9 @@ class Editor():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rects["menuZone"].collidepoint(mouse):
                     self.selecting = True

@@ -12,6 +12,7 @@ from .settings import *
 import time
 
 
+
 class Game:
     def __init__(self, fenetre, mapId):
         self.fenetre = fenetre
@@ -97,6 +98,9 @@ class Game:
         for e in self.event:
             if e.type == pygame.QUIT:
                 return "stop"
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
         keys = pygame.key.get_pressed()
         if keys[K_ESCAPE]:
             self.setOnPause()
