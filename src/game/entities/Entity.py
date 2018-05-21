@@ -41,53 +41,39 @@ class Entity:
     def collisionPlatform(self):
         """collision plateform normal"""
         for rect in self.map.rects["plateforme"]:
-            if self.hitbox.colliderect(rect):
-                #haut
-                if self.lasty + self.hitbox.h <= rect.y:
-                    if self.vy > 110:
-                        self.alive = False
-                    self.y = rect.y - self.hitbox.h
-                    self.vy = 0
-                    self.onground = True
-                #bas
-                elif self.lasty >= rect.y + rect.h:
-                    self.y = rect.y + rect.h
-                #milieu
-                else:
-                    if self.lastx >= rect.x + (rect.w / 2):
-                        self.x = rect.x + rect.w
-                    elif self.lastx + self.hitbox.w <= rect.x + (rect.w / 2):
-                        self.x = rect.x - self.hitbox.w
-                    else:
-                        print("La c'est la merde")
-                self.updateHitbox()
+            self.collisionRect(rect)
 
     def collisionPlatformColor(self):
         """collision plateform de couleur"""
         for colorPlat in self.map.rects["colorPlateforme"]:
             rect = colorPlat[0]
             z = colorPlat[1]
-            if (self.z <= z + 200 and self.z >= z - 200) or (self.z <= (z + 200) % 1530) or (self.z >= (z - 200) % 1530):
-                if self.hitbox.colliderect(rect):
-                    #haut
-                    if self.lasty + self.hitbox.h <= rect.y:
-                        if self.vy > 110:
-                            self.alive = False
-                        self.y = rect.y - self.hitbox.h
-                        self.vy = 0
-                        self.onground = True
-                    #bas
-                    elif self.lasty >= rect.y + rect.h:
-                        self.y = rect.y + rect.h
-                    #milieu
-                    else:
-                        if self.lastx >= rect.x + (rect.w / 2):
-                            self.x = rect.x + rect.w
-                        elif self.lastx + self.hitbox.w <= rect.x + (rect.w / 2):
-                            self.x = rect.x - self.hitbox.w
-                        else:
-                            print("La c'est la merde");
-                    self.updateHitbox()
+            if (self.z <= z + 200 and self.z >= z - 200) or ((self.z <= (z + 200) % 1530 + 1530) and (self.z >= (z - 200) % 1530)):
+                self.collisionRect(rect)
+
+    def collisionRect(self, rect):
+        if self.hitbox.colliderect(rect):
+            #haut
+            if self.lasty + self.hitbox.h <= rect.y:
+                if self.vy > 110:
+                    #self.alive = False
+                    self.life = int(self.life + (self.vx - 110) / 2)
+                self.y = rect.y - self.hitbox.h
+                self.vy = 0
+                self.onground = True
+            #bas
+            elif self.lasty >= rect.y + rect.h:
+                self.y = rect.y + rect.h
+            #milieu
+            else:
+                if self.lastx >= rect.x + (rect.w / 2):
+                    self.x = rect.x + rect.w
+                elif self.lastx + self.hitbox.w <= rect.x + (rect.w / 2):
+                    self.x = rect.x - self.hitbox.w
+                else:
+                    print("La c'est la merde");
+            self.updateHitbox()
+
 
     def setMap(self, map):
         """defini la map de l'entité"""
