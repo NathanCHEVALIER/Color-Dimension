@@ -6,6 +6,7 @@ from menu.Options import *
 from menu.Mur import *
 from menu.Credits import *
 from game.map.Editor import *
+from game.settings import *
 
 class StartMenu():
 
@@ -69,6 +70,9 @@ class StartMenu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return "stop"
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if self.rect["play"].collidepoint(mouse):           ##si clic gauche et souris sur rectangle play,

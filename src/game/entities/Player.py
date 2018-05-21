@@ -6,6 +6,7 @@ import json
 
 class Player(Entity):
     def __init__(self,fenetre, x, y, z):
+        """constructeur pour player"""
         Entity.__init__(self, x, y, z)
         self.fenetre = fenetre
         self.level = 0
@@ -18,7 +19,7 @@ class Player(Entity):
         self.side = "droite"
         self.steep = 0
 
-        #son
+        #met en memoir le son pour le saut
         self.son = {"saut" : pygame.mixer.Sound("../music/saut.wav")}
 
         #image pour le rendu
@@ -31,11 +32,13 @@ class Player(Entity):
 
         #rect pour les collisions
         self.hitbox = pygame.Rect(0, 0, 80, 150)
-
+        self.inputs = {"droite" : False, "gauche" : False, "sauter" : False}
 
     def render(self):
         """rendu du joueur"""
-        pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
+        #affiche le hitbox
+        ##pygame.draw.rect(self.fenetre, (255, 0, 0, 0.5), pygame.Rect(910, 400, self.hitbox.w, self.hitbox.h))
+
         if self.vx != 0:
             if self.side == "droite":
                 pygame.draw.polygon(self.fenetre, self.color, [[968, 400], [938, 435], [965, 435]])
@@ -53,12 +56,7 @@ class Player(Entity):
                 pygame.draw.polygon(self.fenetre, self.color, [[928, 400], [930, 435], [957, 435]])
                 self.fenetre.blit(self.image["gauche"][0], (900, 400))
 
-    def update(self, event, options):
-        """update du joueur"""
-        self.lastx = self.x
-        self.lasty = self.y
-        self.lastz = self.z
-
+    def getInput(self, event, options):
         for e in event:
             key = None
             if e.type == pygame.KEYDOWN or e.type == pygame.MOUSEBUTTONDOWN:
@@ -66,72 +64,81 @@ class Player(Entity):
                     key = e.key
                 elif e.type == pygame.MOUSEBUTTONDOWN:
                     key = e.button
-
                 if key == options["input"]["droite"][1]:
+                    self.inputs["droite"] = True
                     self.vx = 20
                     self.side = "droite"
                 elif key == options["input"]["gauche"][1]:
+                    self.inputs["gauche"] = True
                     self.vx = -20
                     self.side = "gauche"
-
-                if key == options["input"]["sauter"][1]:
-                    if self.onground:
-                        self.son["saut"].play()
-                        self.vy -= 90
-                        self.onground = False
                 if key == options["input"]["z+"][1]:
-                    self.vz = 60
+                    self.z += 60
                 elif key == options["input"]["z-"][1]:
-                    self.vz = -60
-
-
+                    self.z -= 60
+                if key == options["input"]["sauter"][1]:
+                    self.inputs["sauter"] = True
             if e.type == pygame.KEYUP or e.type == pygame.MOUSEBUTTONUP:
                 if e.type == pygame.KEYUP:
                     key = e.key
                 elif e.type == pygame.MOUSEBUTTONUP:
                     key = e.button
-
                 if key == options["input"]["droite"][1]:
-                    self.vx = 0
+                    self.inputs["droite"] = False
+                    if self.inputs["gauche"]:
+                        self.vx = -20
+                        self.side = "gauche"
+                    else:
+                        self.vx = 0
                 elif key == options["input"]["gauche"][1]:
-                    self.vx = -0
+                    self.inputs["gauche"] = False
+                    if self.inputs["droite"]:
+                        self.vx = 20
+                        self.side = "droite"
+                    else:
+                        self.vx = 0
 
-                if key == options["input"]["z+"][1]:
-                    self.vz = 0
-                elif key == options["input"]["z-"][1]:
-                    self.vz = 0
-
-            self.z += self.vz
-            if self.z < 0:
-                self.z = 0
-            elif self.z > 1530:
-                self.z = 1530
+                if key == options["input"]["sauter"][1]:
+                    self.inputs["sauter"] = False
 
 
-##            if e.type == pygame.MOUSEBUTTONDOWN:
-##                if e.button == 4:
-##                    self.z -= 102
-##                if e.button == 5:
-##                    self.z += 102
-##                if self.z < 0:
-##                    self.z = 0
-##                elif self.z > 1530:
-##                    self.z = 1530
-##            if e.type == pygame.MOUSEBUTTONDOWN:
-##                if self.options["droite"][0] == "key":
-##                    if e.key == self.options["droite"][1]:
-##                        self.vx = 20
-##                        self.side = "droite"
-##                if self.options["gauche"][0] == "key":
-##                    if e.key == self.options["gauche"][1]:
-##                        self.vx = -20
-##                        self.side = "gauche"
 
-##        if keys[K_SPACE]:
+    def update(self, event, options):
+        """update du joueur"""
+        self.getInput(event, options)
+        self.lastx = self.x
+        self.lasty = self.y
+        self.lastz = self.z
+        if self.inputs["sauter"]:
+            if self.onground:
+                self.son["saut"].play()
+                self.vy -= 90
+                self.onground = False
+
+##        if self.inputs["droite"] and not self.inputs["gauche"]:
+##            self.vx = 20
+##            self.side = "droite"
+##        elif self.inputs["gauche"] and not self.inputs["droite"]:
+##            self.vx = -20
+##            self.side = "gauche"
+##        if not self.inputs["droite"] and not self.inputs["gauche"]:
+##            self.vx = 0
+##
+##        if self.inputs["sauter"]:
 ##            if self.onground:
 ##                self.son["saut"].play()
 ##                self.vy -= 90
 ##                self.onground = False
+##        if self.inputs["z+"] and not self.inputs["z-"]:
+##            self.vz = 60
+##        elif self.inputs["z-"] and not self.inputs["z+"]:
+##            self.vz = -60
+##        else:
+##            vz = 0
+
+
+        self.z += self.vz
+        self.z = self.z % 1530
 
         #calcul de la couleur de la corne
         self.color = getColor(self.z)
@@ -141,6 +148,7 @@ class Player(Entity):
         self.x += self.vx
         self.y += self.vy
 
+
         if self.y > self.level.h:
             self.vy = 0
             self.y = self.level.h
@@ -149,7 +157,7 @@ class Player(Entity):
         self.updateHitbox()
 
         #collision
-        self.collisionPiege()
+
         self.collisionPlatform()
         self.collisionPlatformColor()
-
+        self.collisionPiege()

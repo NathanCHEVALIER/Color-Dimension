@@ -12,6 +12,7 @@ from .settings import *
 import time
 
 
+
 class Game:
     def __init__(self, fenetre, mapId):
         self.fenetre = fenetre
@@ -34,7 +35,9 @@ class Game:
         self.pause = False
         self.running = True
 
+
     def run(self):
+        """fonction qui lance le jeux et renvoie des indication sur ce qu'on doit faire après"""
         self.options = load()
 
         self.music.play()
@@ -89,10 +92,15 @@ class Game:
         self.pause = False
 
     def getEvent(self):
+        """Recupère les evènement de pygame puisstock le tableau des evenement dans l'atribut event
+        , traite l'evènement de quand on apuis sur la croix"""
         self.event = pygame.event.get()
         for e in self.event:
             if e.type == pygame.QUIT:
                 return "stop"
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_F11:
+                    Settings.changeFullScreen(self.fenetre)
         keys = pygame.key.get_pressed()
         if keys[K_ESCAPE]:
             self.setOnPause()
@@ -110,6 +118,9 @@ class Game:
         self.map.update()
         for e in self.enemies:
             e.update()
+            if e.hitbox.colliderect(self.player.hitbox):
+                self.player.alive = False
+
         self.player.update(self.event, self.options)
 
     def respawn(self):
@@ -117,4 +128,6 @@ class Game:
         self.player.x = 2000
         self.player.y = 1700
         self.player.z = 0
+        self.player.vx = 0
+        self.player.vy = 0
         self.player.alive = True

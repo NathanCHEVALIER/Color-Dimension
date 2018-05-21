@@ -22,17 +22,22 @@ class Monster(Entity):
         self.hitbox = pygame.Rect(0, 0, 65, 100)
 
     def render(self, x, y):
+        """affiche l'ennemi"""
+        #affiche la hitbox
+        ##pygame.draw.rect(self.fenetre, (255, 0, 0, 1), pygame.Rect(x, y, self.hitbox.w, self.hitbox.h))
+        #on a deux cas pour le rendu suivant l'orientation de l'enemny
         if self.vx >= 0:
             self.fenetre.blit(self.image["droite"], (x, y))
         else:
             self.fenetre.blit(self.image["gauche"], (x, y))
 
     def update(self):
+        """Actualise le jouer: IA, collisions"""
         self.lastx = self.x
         self.lasty = self.y
         self.lastz = self.z
 
-        #AI
+        #IA
         dx = self.target.x - self.x
         dy = self.target.y - self.y
         dd = math.sqrt((dx)**2 + (dy)**2)
