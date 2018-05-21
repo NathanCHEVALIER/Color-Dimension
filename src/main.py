@@ -7,7 +7,7 @@ from menu.StartMenu import *
 class Main():
     """boucle principale du programme"""
     pygame.init()
-    fenetre = pygame.display.set_mode((1920, 1080))
+    fenetre = pygame.display.set_mode((1920, 1080)) ##, pygame.FULLSCREEN)
     game = 0
     r = "startmenu"
     while r != "stop":
@@ -22,6 +22,3 @@ class Main():
             game.respawn()
             r = game.run()
     pygame.quit()
-
-
-

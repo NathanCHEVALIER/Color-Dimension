@@ -8,3 +8,5 @@ src/game/__pycache__/
 src/game/map/__pycache__/
 
 *.pyc
+
+docs/~\$Présentation\.pptx
