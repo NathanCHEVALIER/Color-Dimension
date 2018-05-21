@@ -19,7 +19,6 @@ class Game:
         self.player = Player(self.fenetre, 2000, 1700, 0)
         self.mapId = mapId
         self.map = Map(self.fenetre, self.player, self.mapId)
-        self.editor = Editor(self.fenetre)
         self.player.setMap(self.map)
 
         #enemies
@@ -40,7 +39,7 @@ class Game:
         """fonction qui lance le jeux et renvoie des indication sur ce qu'on doit faire après"""
         self.options = load()
 
-        self.music.play()
+        self.music.play(-1)
         last = 0
         while self.running:
             while not self.pause and self.player.alive:
