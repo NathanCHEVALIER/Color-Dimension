@@ -20,7 +20,6 @@ class Editor():
         self.camPos = {"x": 5, "y": 9}
         self.current = {"element": ["empty", False], "world": [world, level]}
         self.cases = []
-        self.image = {}
 
         self.loadMap()
 
