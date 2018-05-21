@@ -11,6 +11,8 @@ class Player(Entity):
         self.fenetre = fenetre
         self.level = 0
 
+        self.life = 100
+
         self.alive = True
         self.onground = False
 
@@ -115,27 +117,6 @@ class Player(Entity):
                 self.vy -= 90
                 self.onground = False
 
-##        if self.inputs["droite"] and not self.inputs["gauche"]:
-##            self.vx = 20
-##            self.side = "droite"
-##        elif self.inputs["gauche"] and not self.inputs["droite"]:
-##            self.vx = -20
-##            self.side = "gauche"
-##        if not self.inputs["droite"] and not self.inputs["gauche"]:
-##            self.vx = 0
-##
-##        if self.inputs["sauter"]:
-##            if self.onground:
-##                self.son["saut"].play()
-##                self.vy -= 90
-##                self.onground = False
-##        if self.inputs["z+"] and not self.inputs["z-"]:
-##            self.vz = 60
-##        elif self.inputs["z-"] and not self.inputs["z+"]:
-##            self.vz = -60
-##        else:
-##            vz = 0
-
 
         self.z += self.vz
         self.z = self.z % 1530
@@ -157,7 +138,9 @@ class Player(Entity):
         self.updateHitbox()
 
         #collision
-
         self.collisionPlatform()
         self.collisionPlatformColor()
+        if self.life <= 0:
+            self.alive = False
         self.collisionPiege()
+

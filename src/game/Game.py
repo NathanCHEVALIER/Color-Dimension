@@ -34,6 +34,8 @@ class Game:
         self.pause = False
         self.running = True
 
+        #render
+        self.font = pygame.font.Font('../font/impact.ttf', 40)
 
     def run(self):
         """fonction qui lance le jeux et renvoie des indication sur ce qu'on doit faire après"""
@@ -112,6 +114,11 @@ class Game:
             e.render(e.x - self.player.x + 910, e.y - self.player.y + 400)
         self.player.render()
 
+        pygame.draw.rect(self.fenetre, (145, 124, 111), pygame.Rect(0, 0, 100, 50))
+        vie = self.font.render(str(self.player.life), 1, (242,242,242))
+        self.fenetre.blit(vie, (10, 0))
+
+
     def update(self):
         """update de la map et du joueur"""
         self.map.update()
@@ -131,3 +138,5 @@ class Game:
         self.player.vy = 0
         self.player.inputs = {"droite" : False, "gauche" : False, "sauter" : False}
         self.player.alive = True
+        self.player.life = 100
+        self.timestart = time.time()

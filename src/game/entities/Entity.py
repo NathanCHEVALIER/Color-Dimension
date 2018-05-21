@@ -56,7 +56,8 @@ class Entity:
             #haut
             if self.lasty + self.hitbox.h <= rect.y:
                 if self.vy > 110:
-                    self.alive = False
+                    #self.alive = False
+                    self.life = int(self.life + (self.vx - 110) / 2)
                 self.y = rect.y - self.hitbox.h
                 self.vy = 0
                 self.onground = True
