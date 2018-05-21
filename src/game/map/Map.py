@@ -29,25 +29,22 @@ class Map:
 
     def generateMap(self, mapId):
         ##chargement des données
-        data = self.loadMap(mapId, False)
+        data = self.loadMap(mapId, "Z0")
         self.level = pygame.Surface((data['limit'][2], data['limit'][3]))
         self.level.fill((174,226,254))
         ##on parcours les zones de la map
-        for i in data:
-            if i != "limit":
-                ##création de la zone de jeu
-                self.zone = pygame.Surface((data[i]['limit'][2], data[i]['limit'][3]))
-                self.zone.fill((200,200,200))
-                self.posZone = self.zone.get_rect()
-                self.posZone = self.posZone.move(data[i]['limit'][0], data[i]['limit'][1])
+        self.zone = pygame.Surface((data['limit'][2], data['limit'][3]))
+        self.zone.fill((200,200,200))
+        self.posZone = self.zone.get_rect()
+        self.posZone = self.posZone.move(data['limit'][0], data['limit'][1])
                 ##appel des fonctions d'affichage des plateformes
-                self.setPlateforme(data[i]["plateforme"])
-                self.setPiege(data[i]["piege"])
-                self.setColorPlateforme(data[i]["colorPlateforme"])
-                self.rects["debut"] = self.image["debut"][1].move((data[i]["debut"][2], data[i]["debut"][3]))
-                self.rects["fin"] = self.image["fin"][1].move((data[i]["fin"][2], data[i]["fin"][3]))
+        self.setPlateforme(data["plateforme"])
+        self.setPiege(data["piege"])
+        self.setColorPlateforme(data["colorPlateforme"])
+        self.rects["debut"] = self.image["debut"][1].move((data["debut"][2], data["debut"][3]))
+        self.rects["fin"] = self.image["fin"][1].move((data["fin"][2], data["fin"][3]))
                 ##choix de la vue de la zone de jeu
-                self.setCamera(1000,1100)
+        self.setCamera(1000,1100)
         print(self.rects)
 
     def loadMap(self, mapId, zoneId):
