@@ -16,7 +16,7 @@ class Map:
         self.zone = 0
         self.posZone = 0
         self.image = {"sprite": 0, "plateforme": 0, "piege": 0, "colorPlateforme": 0}
-        self.rects = {"plateforme": [], "piege": [], "colorPlateforme": []}
+        self.rects = {"plateforme": [], "piege": [], "colorPlateforme": [], "start": [], "finish": []}
         self.music = ''
         ##appel de fonction
         self.generateMap(self.mapId)
@@ -44,8 +44,11 @@ class Map:
                 self.setPlateforme(data[i]["plateforme"])
                 self.setPiege(data[i]["piege"])
                 self.setColorPlateforme(data[i]["colorPlateforme"])
+                self.rects["debut"] = self.image["debut"][1].move((data[i]["debut"][2], data[i]["debut"][3]))
+                self.rects["fin"] = self.image["fin"][1].move((data[i]["fin"][2], data[i]["fin"][3]))
                 ##choix de la vue de la zone de jeu
                 self.setCamera(1000,1100)
+        print(self.rects)
 
     def loadMap(self, mapId, zoneId):
         ##chargement des données du fichier JSON, du sprite et de la musique correspondants
@@ -60,6 +63,11 @@ class Map:
         self.image["piege"] = [piege, piege.get_rect()]
         colorPlateforme = self.image["sprite"].subsurface(0, 50, 100, 50)
         self.image["colorPlateforme"] = [colorPlateforme, colorPlateforme.get_rect()]
+
+        debut = self.image["sprite"].subsurface(0, 200, 100, 50)
+        self.image["debut"] = [debut, debut.get_rect()]
+        fin = self.image["sprite"].subsurface(0, 250, 100, 50)
+        self.image["fin"] = [fin, fin.get_rect()]
         ##on retourne les données chargées
         if zoneId != False:
             return content[mapId][zoneId]
