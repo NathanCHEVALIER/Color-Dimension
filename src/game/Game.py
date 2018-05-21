@@ -125,9 +125,10 @@ class Game:
 
     def respawn(self):
         """remet le joeur à sa position de depart"""
-        self.player.x = 2000
+        self.player.x = 2200
         self.player.y = 1700
         self.player.z = 0
         self.player.vx = 0
         self.player.vy = 0
+        self.player.inputs = {"droite" : False, "gauche" : False, "sauter" : False}
         self.player.alive = True
