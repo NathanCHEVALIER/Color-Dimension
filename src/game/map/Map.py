@@ -41,8 +41,8 @@ class Map:
         self.setPlateforme(data["plateforme"])
         self.setPiege(data["piege"])
         self.setColorPlateforme(data["colorPlateforme"])
-        self.rects["debut"] = self.image["debut"][1].move((data["debut"][2], data["debut"][3]))
-        self.rects["fin"] = self.image["fin"][1].move((data["fin"][2], data["fin"][3]))
+        self.rects["start"] = self.image["debut"][1].move((data["debut"][2], data["debut"][3]))
+        self.rects["finish"] = self.image["fin"][1].move((data["fin"][2], data["fin"][3]))
                 ##choix de la vue de la zone de jeu
         self.setCamera(1000,1100)
 
