@@ -204,13 +204,17 @@ class Editor():
         self.cases = [[["empty", False]] * int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"][3] / 50))]
 
         ##Chargement de la map courantes: on place les obstacles à leurs places
-        print(self.dataMap)
-        for j in range(0, len(self.dataMap[self.current["world"][0]][self.current["world"][1]])):
-            print(j)
-            if self.dataMap[self.current["world"][0]][self.current["world"][1]][j] in ["plateforme", "piege", "debut", "fin", "colorPlateforme", "ennemies"]:
+        for j in self.dataMap[self.current["world"][0]][self.current["world"][1]]:
+            if j in ["plateforme", "piege", "debut", "fin", "colorPlateforme", "ennemies"]:
                 for i in self.dataMap[self.current["world"][0]][self.current["world"][1]][j]:
                     for c in range(0, int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][2] / 100)):
-                        self.cases[int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][1]/ 50)][int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][0]/100) + c] = [j, self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][4]]
+                        x = int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][0]/100) + c
+                        y = int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][1]/ 50)
+                        if j in ["colorPlateforme",]:
+                            argu = self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][4]
+                        else:
+                            argu = 0
+                        self.cases[y][x] = [j, argu]
 
 
         self.newMap = {"limit": self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"], "plateforme": {}, "piege": {}, "colorPlateforme": {}, "debut": {}, "fin": {}, "ennemies": {}}

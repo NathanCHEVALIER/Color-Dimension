@@ -5,7 +5,7 @@ from menu.Scores import *
 from menu.Options import *
 from menu.Mur import *
 from menu.Credits import *
-from game.map.Administrator import *
+from game.map.Editor import *
 from game.settings import *
 
 class StartMenu():
@@ -16,7 +16,7 @@ class StartMenu():
         self.fenetre = fenetre
 
         ##chargement des fichiers sonores
-        self.music = pygame.mixer.Sound("../music/oldmusique.wav")
+        self.music = pygame.mixer.Sound("../music/musique.wav")
 
         ##chargement des images
         self.image = {"title" : pygame.image.load('../img/menu/title3.png')}
@@ -38,7 +38,7 @@ class StartMenu():
     def run(self):
         """fonction donnant la boucle qui actuallise la page 30 fois par seconde"""
         ##on lance le fichier son (musique.wav)
-        self.music.play(-1)
+        self.music.play()
 
         ##boucle appellant render() 30fois par seconde
         r = 0
@@ -93,8 +93,8 @@ class StartMenu():
                         else:
                             return r
                     elif self.rect["edit"].collidepoint(mouse):         ##si clic gauche et souris sur rectangle edit,
-                        administrator = Administrator(self.fenetre)                  ##on ouvre la page éditeur
-                        administrator.loop()
+                        editeur = Editor(self.fenetre)                  ##on ouvre la page éditeur
+                        editeur.loop()
                     elif self.rect["mur"].collidepoint(mouse):          ##Easter egg ;-)
                         mur = Mur(self.fenetre)
                         mur.run()
