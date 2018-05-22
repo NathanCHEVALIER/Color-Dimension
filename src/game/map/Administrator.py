@@ -230,7 +230,7 @@ class Administrator():
     def saveLevel(self, word, title, width, height):
         file = open('../data/map.json', 'r+')
         content = json.load(file)
-        newMap = {"limit": [0, 0, int(width) * 100, int(height) * 50], "plateforme": {}, "piege": {}, "colorPlateforme": {}}
+        newMap = {"limit": [0, 0, int(width) * 100, int(height) * 50], "plateforme": {}, "piege": {}, "colorPlateforme": {}, "debut": {}, "fin": {}, "ennemies": {}}
         content[word][title] = newMap
         file.seek(0)
         json.dump(content, file)

@@ -34,6 +34,9 @@ class Editor():
         self.image["plateforme"] = self.image["decor"].subsurface(0, 0, 100, 50)
         self.image["piege"] = self.image["decor"].subsurface(0, 100, 100, 50)
         self.image["colorPlateforme"] = self.image["decor"].subsurface(0, 50, 100, 50)
+        self.image["ennemies"] = self.image["decor"].subsurface(0, 150, 100, 50)
+        self.image["debut"] = self.image["decor"].subsurface(0, 200, 100, 50)
+        self.image["fin"] = self.image["decor"].subsurface(0, 250, 100, 50)
         self.image["empty"] = self.image["sprite"].subsurface(100, 50, 100, 50)
         self.image["paletteColor"] = self.image["sprite"].subsurface(200, 100, 175, 50)
         self.image["cursor"] = self.image["sprite"].subsurface(200, 150, 10, 50)
@@ -46,7 +49,9 @@ class Editor():
         ##création des surfaces correspondantes aux images (utilisées pour les event)
         self.rects = {"save": self.image["save"].get_rect().move((50, 950)), "paletteColor": self.image["paletteColor"].get_rect().move((200, 1000)),
                         "piege": self.image["piege"].get_rect().move((50, 290)), "colorPlateforme": self.image["colorPlateforme"].get_rect().move((50, 230)),
-                        "empty": self.image["empty"].get_rect().move((50, 70)), "plateforme": self.image["plateforme"].get_rect().move((50, 150))}
+                        "empty": self.image["empty"].get_rect().move((50, 70)), "plateforme": self.image["plateforme"].get_rect().move((50, 150)),
+                        "ennemies": self.image["ennemies"].get_rect().move((50, 350)), "debut": self.image["debut"].get_rect().move((50, 420)),
+                        "fin": self.image["fin"].get_rect().move((50, 500))}
 
     def render(self):
         ## on décale le fond pour centrer le champ de vision comme voulu
@@ -70,6 +75,9 @@ class Editor():
         self.fenetre.blit(self.image["plateforme"], (50, 150))
         self.fenetre.blit(self.image["colorPlateforme"], (50, 230))
         self.fenetre.blit(self.image["piege"], (50, 290))
+        self.fenetre.blit(self.image["ennemies"], (50, 350))
+        self.fenetre.blit(self.image["debut"], (50, 420))
+        self.fenetre.blit(self.image["fin"], (50, 500))
         self.fenetre.blit(self.image["paletteColor"], (200, 1000))
         self.fenetre.blit(self.image["cursor"], (205 + (int(self.current["element"][1]) / 10), 1000 ))
         self.fenetre.blit(self.image["save"], (50, 950))
@@ -105,6 +113,12 @@ class Editor():
                     self.current["element"][0] = "piege"
                 elif self.rects["empty"].collidepoint(mouse):
                     self.current["element"][0] = "empty"
+                elif self.rects["ennemies"].collidepoint(mouse):
+                    self.current["element"][0] = "ennemies"
+                elif self.rects["debut"].collidepoint(mouse):
+                    self.current["element"][0] = "debut"
+                elif self.rects["fin"].collidepoint(mouse):
+                    self.current["element"][0] = "fin"
                 ##choix de la couleur sur la palette
                 elif self.rects["paletteColor"].collidepoint(mouse):
                     mousePos = pygame.mouse.get_pos()
@@ -161,6 +175,13 @@ class Editor():
                         else:
                             self.newMap["piege"][len(self.newMap["piege"])] = [c*100, i*50 + 20, 100, 30]
 
+                elif self.cases[i][c][0] == "ennemies":
+                    self.newMap["ennemies"][len(self.newMap["ennemies"])] = [c*100, i*50 + 20, 100, 30]
+                elif self.cases[i][c][0] == "debut":
+                    self.newMap["debut"][len(self.newMap["debut"])] = [c*100, i*50 + 20, 100, 30]
+                elif self.cases[i][c][0] == "fin":
+                    self.newMap["fin"][len(self.newMap["fin"])] = [c*100, i*50 + 20, 100, 30]
+
         ##on lit les données, les modifie puis les réécrits
         file = open('../data/map.json', 'r+')
         content = json.load(file)
@@ -183,17 +204,13 @@ class Editor():
         self.cases = [[["empty", False]] * int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"][2] / 100) for i in range(int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"][3] / 50))]
 
         ##Chargement de la map courantes: on place les obstacles à leurs places
-        for i in self.dataMap[self.current["world"][0]][self.current["world"][1]]["plateforme"]:
-            for c in range(0, int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["plateforme"][i][2] / 100)):
-                self.cases[int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["plateforme"][i][1]/ 50)][int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["plateforme"][i][0]/100) + c] = ["plateforme", False]
-
-        for i in self.dataMap[self.current["world"][0]][self.current["world"][1]]["colorPlateforme"]:
-            for c in range(0, int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["colorPlateforme"][i][2] / 100)):
-                self.cases[int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["colorPlateforme"][i][1]/ 50)][int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["colorPlateforme"][i][0]/100) + c] = ["colorPlateforme", self.dataMap[self.current["world"][0]][self.current["world"][1]]["colorPlateforme"][i][4]]
-
-        for i in self.dataMap[self.current["world"][0]][self.current["world"][1]]["piege"]:
-            for c in range(0, int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["piege"][i][2] / 100)):
-                self.cases[int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["piege"][i][1]/ 50)][int(self.dataMap[self.current["world"][0]][self.current["world"][1]]["piege"][i][0]/100) + c] = ["piege", False]
+        print(self.dataMap)
+        for j in range(0, len(self.dataMap[self.current["world"][0]][self.current["world"][1]])):
+            print(j)
+            if self.dataMap[self.current["world"][0]][self.current["world"][1]][j] in ["plateforme", "piege", "debut", "fin", "colorPlateforme", "ennemies"]:
+                for i in self.dataMap[self.current["world"][0]][self.current["world"][1]][j]:
+                    for c in range(0, int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][2] / 100)):
+                        self.cases[int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][1]/ 50)][int(self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][0]/100) + c] = [j, self.dataMap[self.current["world"][0]][self.current["world"][1]][j][i][4]]
 
 
-        self.newMap = {"limit": self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"], "plateforme": {}, "piege": {}, "colorPlateforme": {}}
+        self.newMap = {"limit": self.dataMap[self.current["world"][0]][self.current["world"][1]]["limit"], "plateforme": {}, "piege": {}, "colorPlateforme": {}, "debut": {}, "fin": {}, "ennemies": {}}

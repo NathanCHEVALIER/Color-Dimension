@@ -30,13 +30,13 @@ class Map:
     def generateMap(self, mapId):
         ##chargement des données
         data = self.loadMap(mapId, "Z0")
-        self.level = pygame.Surface((data['limit'][2], data['limit'][3]))
+        self.level = pygame.Surface((data['limit'][2] + 2000, data['limit'][3] + 2000))
         self.level.fill((174,226,254))
         ##on parcours les zones de la map
         self.zone = pygame.Surface((data['limit'][2], data['limit'][3]))
         self.zone.fill((200,200,200))
         self.posZone = self.zone.get_rect()
-        self.posZone = self.posZone.move(data['limit'][0], data['limit'][1])
+        self.posZone = self.posZone.move(1000, 1000)
                 ##appel des fonctions d'affichage des plateformes
         self.setPlateforme(data["plateforme"])
         self.setPiege(data["piege"])
@@ -45,7 +45,6 @@ class Map:
         self.rects["fin"] = self.image["fin"][1].move((data["fin"][2], data["fin"][3]))
                 ##choix de la vue de la zone de jeu
         self.setCamera(1000,1100)
-        print(self.rects)
 
     def loadMap(self, mapId, zoneId):
         ##chargement des données du fichier JSON, du sprite et de la musique correspondants
